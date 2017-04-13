@@ -1,0 +1,35 @@
+.editor-hidden {
+	display: none;
+}
+
+.editor-visible {
+	display: block;
+}
+
+.editor-hover {
+	border-color: silver;
+	border-style: solid;
+	z-index: 99;
+}
+
+.yui-skin-sam .yui-panel-container .yui-toolbar-container .yui-toolbar-subcont {
+	border: 0;
+	padding: 0;
+}
+
+.yui-skin-sam .yui-panel-container .yui-toolbar-container ul {
+	margin: 0;
+}
+
+.yui-skin-sam .yui-panel-container .yui-toolbar-container .yui-toolbar-group {
+	float: none;
+}
+
+.yui-skin-sam .yui-panel-container .yui-toolbar-container .yui-toolbar-subcont .yui-toolbar-separator {
+	display: none;	
+}
+
+.yui-skin-sam .yui-panel-container .yui-toolbar-container .yui-toolbar-subcont .yui-toolbar-group .yui-toolbar-separator {
+	display: inherit;	
+}
+

@@ -1,0 +1,62 @@
+Monoslideshow changelog
+
+- Monoslideshow 1.32 (May 31th, 2007)
+
+[FIXED] Flickr updated some of its RSS feeds, Monoslideshow now parses them correctly
+[FIXED] Some sound issues are fixed
+[UPDATED] Updated manual
+
+- Monoslideshow 1.3 (April 5th, 2007)
+
+[NEW] The copyright notice can be disabled by passing a parameter to the .SWF file: paramer "showVersionInfo" (values "true", "false")
+[NEW] Option to play sounds on button events: attributes "hoverSound", "selectSound", "albumWindowButtonHoverSound", "albumWindowButtonSelectSound", "thumbnailWindowButtonHoverSound", "thumbnailWindowButtonSelectSound", "muteButtonHoverSound", "muteButtonSelectSound", "previousButtonHoverSound", "previousButtonSelectSound", "pauseButtonHoverSound", "pauseButtonSelectSound", "playButtonSelectSound", "nextButtonHoverSound", "nextButtonSelectSound", "albumWindowCloseButtonHoverSound", "albumWindowCloseButtonSelectSound", "albumWindowPreviousButtonHoverSound", "albumWindowPreviousButtonSelectSound", "albumWindowNextButtonHoverSound", "albumWindowNextButtonSelectSound", "albumHoverSound", "albumSelectSound", "thumbnailWindowCloseButtonHoverSound", "thumbnailWindowCloseButtonSelectSound", "thumbnailWindowPreviousButtonHoverSound", "thumbnailWindowPreviousButtonSelectSound", "thumbnailWindowNextButtonHoverSound", "thumbnailWindowNextButtonSelectSound", "thumbnailHoverSound", "thumbnailSelectSound"
+[NEW] Background music fade in and out: attributes "backgroundMusicFadeIn" (values "true", "false"), "backgroundMusicFadeOut", "backgroundMusicAlbumWindowVolume" (values "true", "false"), "backgroundMusicAlbumWindowFadeTime", "backgroundMusicThumbnailWindowVolume", "backgroundMusicThumbnailWindowFadeTime"
+[NEW] Background music can optionally be looped: attribute "backgroundMusicLoop" (values "true", "false")
+[NEW] "backgroundMusic" supports multiple mp3's by separating multiple files with a comma
+[NEW] Monoslideshow can be optionally muted on start: attribute "startMuted" (values "true", "false")
+[NEW] The album window can be shown on finishing an album: attribute "showAlbumWindow" (values "true", "false")
+[NEW] The original images on Flickr can't be accessed anymore, "linkToImageSize" specifies which size the images have when clicked on an image in a Flickr album (values "tiny", "thumbnail", "small", "medium", "large")
+[NEW] New "imageTransition" values "starWipe" and "starWipeBlend"
+[FIXED] The "imageTransition" value "fadeInOut" works fine again
+[FIXED] The "imageScaleMode" value "downscaleToFit" works fine now
+[FIXED] Display an album regardless of whether an album thumbnail is present
+[FIXED] "mailto" links won't open in a new window
+[FIXED]	If "autoPlay" is set to "false", the play icon is set to pause too
+[FIXED] Sometimes the link on an image didn't work when the image was pressed
+[FIXED] Monoslideshow implements a new Flickr Feed parsing system, following the recent changes made by Flickr
+[CHANGED] When "startWith" is set to "albums", "thumbnails" or "albumsThenThumbnails", the close button of the album or thumbnail window is disabled
+[CHANGED] The original images on Flickr can't be accessed anymore, the "size" attribute doesn't contain the value "original" anymore, these are still valid: "tiny", "thumbnail", "small", "medium", "large"
+[CHANGED] The attribute "soundPath" can be placed in the <preferences> tag too, it does affect the sounds of the buttons, but not the attribute "backgroundMusic"
+[CHANGED] The demo page on www.monoslideshow.com/demo generates more compact XML files by omitting standard values in the <preferences> tag
+[UPDATED] Updated manual
+
+- Monoslideshow 1.2 (December 14th, 2006)
+
+[NEW] Custom fonts support: attributes "imageInfoTitleFont", "imageInfoDescriptionFont", "albumWindowInfoFont", "thumbnailWindowInfoFont", "albumInfoTitleFont", "albumInfoDescriptionFont"
+[NEW] Specify a viewport to display the images in: attribute "viewport" (value "x1, y1, x2, y2")
+[NEW] Set thumbnail window to always on: attribute "thumbnailWindowAlwaysOn" (values "true", "false")
+[NEW] Track thumbnail window when always on: attribute "thumbnailWindowTrack" (values "true", "false")
+[NEW] Attribute "startWith" gets new value "albumsThenThumbnails"
+[NEW] Displays an error if mark file isn't loaded correctly
+[FIXED] "autoPause" works correctly when an image with sound is manually skipped
+[FIXED] Controls are sized correctly
+[FIXED] Strings character limit is 65536 instead of 1024
+[FIXED] "kenBurnsStart" and "kenBurnsEnd" coordinates no longer need "kenBurnsMode" defined
+[CHANGED] When "thumbnailPath" in the "album" tag is defined, the URL of the thumbnail in the "img" tag becomes "thumbnailPath" + "thumbnail"
+[UPDATED] Updated manual
+
+- Monoslideshow 1.1 (September 30th, 2006)
+
+[NEW] Ken Burns effect: attribute "kenBurnsMode" (values "randomPan", "randomZoomIn", "randomZoomOut", "random", "none"), "kenBurnsVariationPercent", "kenBurnsTime", "kenBurnsStart", "kenBurnsEnd"
+[NEW] Start specific images or albums: attributes "startWithAlbumID", "startWithImageID", "id" ("loadAlbum" which uses the title of an album will be deprecated soon)
+[NEW] Auto pause: attribute "autoPause" (values "true", "false")
+[FIXED] Sound doesn't affect other .SWF movies anymore
+[FIXED] Backgroundmusic won't be played when startWith = "albums"
+[FIXED] Fixed an absolute path issue
+[CHANGED] Albums will immediately fade out when clicked in the album window
+[CHANGED] No image will be displayed in the background when startWith = "albums" or "thumbnails"
+[UPDATED] Updated manual
+
+- Monoslideshow 1.0 (September 10th, 2006)
+
+First version

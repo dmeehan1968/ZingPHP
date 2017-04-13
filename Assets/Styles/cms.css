@@ -1,0 +1,40 @@
+
+.page-draft {
+	background-color: Yellow;
+}
+
+.page-published {
+	background-color: Green;
+}
+
+.page-pending {
+	background-color: Orange;
+}
+
+.page-expired {
+	background-color: Red;
+}
+
+#tblCmsPages td.abstract {
+	width: 50%;
+}
+
+#tblCmsFileList td.checkbox {
+	width: 15px;
+}
+
+#tblCmsFileList td.filename img {
+	vertical-align: middle;
+	margin-right: 1em;
+}
+
+#tblCmsFileList td.filename a:hover {
+	text-decoration: none !important;
+}
+
+#frmCmsFileUpload,
+#frmCmsFileCreateFolder {
+	margin-top: 3em;
+	width: 50%;
+	float: left;
+}

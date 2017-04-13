@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+	Monoslideshow 1.32 configuration file
+	Please visit http://www.monoslideshow.com for more info
+-->
+
+<slideshow>
+	
+	<preferences
+		kenBurnsMode = "random"
+	/>
+	
+	<album thumbnail="album/albumThumbnail.jpg" title="Example album" description="Example description" imagePath="album/images" thumbnailPath="album/thumbnails">
+		<img src="photo1.jpg" title="Example photo 1" description="Example description 1"/>
+		<img src="photo2.jpg" title="Example photo 2" description="Example description 2"/>
+		<img src="photo3.jpg" title="Example photo 3" description="Example description 3"/>
+	</album>
+	
+</slideshow>

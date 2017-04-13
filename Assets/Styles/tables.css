@@ -1,0 +1,27 @@
+table.zing {
+		border: 1px solid #ddd;
+		width: 100%;
+		margin-top: 0.5em;
+	}
+	
+table.zing thead {
+		background-color: #aaa;
+	}
+	
+table.zing thead td {
+		font-weight: bold;
+	}
+	
+table.zing td {
+		padding: 0.25em 0.5em;
+		vertical-align: top;
+	}
+	
+table.zing tr.odd {
+		background-color: #FAFAFA;
+	}
+	
+table.zing tr.even {
+		background-color: #E2E2E2;
+	}
+	

@@ -1,0 +1,535 @@
+	body {
+		font-family: 'Lucida Grande', Geneva, Arial, Helvetica, Verdana, sans-serif;
+		font-size: 80%;
+		color: white;
+		line-height: 1.4em;
+		margin: 0;
+		padding: 0;
+		text-align: center;
+		background-color: #1F2847;
+	}
+
+	p {
+		padding: 0;
+		margin: 0 0 1em 0;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		line-height: 1.4em;
+		color: #09264a;
+		font-weight: normal;
+		margin: 0 0 0.5em 0;
+		padding: 0;
+	}		
+
+	h1 {
+		font-size: 2em;
+	}
+	
+	a:link, a:visited {
+		color: #D47A16;
+		text-decoration: none;
+	}		
+	
+	a:hover {
+		text-decoration: underline;
+	}
+
+	img {
+		border: 0;
+	}
+	
+	#container {
+		color: #0b384c;
+		margin: 0 auto;
+		width: 830px;
+		text-align: left;
+	}
+	
+	#content {
+		padding: 0 40px 1em 230px;
+		background-color: white;
+		background-image: url(/assets/images/backgrounds/default_05.jpg);
+		background-position: center;
+		background-repeat: repeat-y;
+		min-height: 400px;
+		height: auto !important;
+		height: 400px;
+	}
+	
+	* html #content {
+		height: auto;
+	}
+
+	#header {
+		background-image: url(/assets/images/backgrounds/default_04.jpg);
+		background-position: bottom left;
+		background-repeat: no-repeat;
+		padding-bottom: 30px;
+	}
+
+	#header h1 {
+		color: white;
+		text-indent: -20000px;
+		background-image: url(/assets/images/backgrounds/default_02.jpg);
+		background-position: left;
+		background-repeat: repeat-x;
+		height: 120px;
+		margin: 0;
+		padding: 0;
+	}	
+	
+	#header h2 {
+		display: none;
+	}
+	
+	#footer {
+		background-image: url(/assets/images/backgrounds/default_07.jpg);
+		background-position: top left;
+		background-repeat: no-repeat;
+		padding-top: 29px;
+		font-size: smaller;
+		color: white;
+		text-align: center;
+		clear: both;
+	}		
+
+	#divNotify {
+		padding: 0.5em;
+		margin-bottom: 0.5em;
+	}		
+	
+	#divNotify.error {
+		border: 1px solid red;
+		background-color: #FFCCCC;
+		color: red;
+	}
+
+	#divNotify.success {
+		border: 1px solid green;
+		background-color: #CCFFCC;
+		color: green;
+	}
+	
+.gmap {
+	width: 360px;
+	height: 300px;
+	margin: 0 auto 2em auto;
+	border: 1px solid black;
+	padding: 1em;
+}
+
+.gmap-large {
+	width: 100%;
+	height: 500px;
+}
+
+.gmap-home {
+	width: 530px;
+	height: 400px;
+}	
+
+.gmap-small {
+	width: 345px;
+	height: 345px;
+	margin: 0 0 1em 1em;
+	float:right;
+}
+
+div.form-combo div.gmap {
+	margin-left: 160px;
+}
+
+div.form-combo input.googleAdjust {
+	margin-left: 160px;
+	width: auto;
+}
+
+ul, ol {
+	margin: 0 0 1em 0;
+	padding: 0;
+	list-style-position: inside;
+}
+
+ul ul,
+ol ol,
+ul ol,
+ol ul {
+	margin: 0 0 0 1.5em;
+}
+
+#mapping .form-combo {
+	clear: none;
+	padding: 0;
+	margin-top: 0.5em;
+}
+
+#mapping .form-checkbox-group {
+	width: auto;
+}
+
+#mapping .form-combo label {
+	padding: 0;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+#mapping .map-options {
+	float: left;
+	width: 180px;
+	margin-right: 10px;
+}
+
+#mapping .switch {
+	float: left;
+}
+
+#mapping #search .parishes label,
+#mapping #search .disciplines label,
+#mapping #search .community label,
+#mapping #search .dates label {
+	margin: 0;
+	width: 150px;
+	text-align: left;
+	font-weight: bold;
+}
+
+#mapping #search .checkbox {
+	float: left;
+}	
+
+#mapping #search .parishes br,
+#mapping #search .disciplines br,
+#mapping #search .community br,
+#mapping #search .dates br {
+	display: block;
+	clear: left;
+}
+
+#mapping #search .form-checkbox-group label {
+	font-weight: normal;
+}	
+
+
+#mapping #loading {
+	text-align: center;
+	vertical-align: middle;
+}
+
+table tr.sub-head td {
+	font-size: 2em;
+	background-color: #C2C2C2;
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin: 0 0 0.5em 0;
+}
+
+/*  - - - - - PAGE LAYOUT - - - - - */
+
+#sidebar {
+	position: absolute;
+	width: 190px;
+	padding: 0 20px 0 20px;
+}
+
+#main_nav {
+	font-size: 1.3em;
+	font-weight: bold;
+	line-height: 1.5em;
+	margin-top: 3em;
+}
+
+.nav ul {
+	list-style-type: none;
+	list-style-position: outside;
+	margin: 0;
+	padding: 0;
+}
+
+.nav li {
+	margin: 0;
+	padding: 0;
+}
+
+* html .nav li {
+	height: 1px;
+}
+
+#sidebar .nav a {
+	text-decoration: none;
+	display: block;
+	padding-left: 20px;
+	color: #255579;
+}
+
+.nav a:hover {
+	background-color: #E99231;
+	color: white;
+}
+
+#admin_nav {
+	margin-top: 2em;
+}
+
+#artist_image,
+#community_image {
+	float: right;
+	margin-left: 1em;
+}
+
+.guide_image {
+	text-align:right;
+}
+
+.imagerotator {
+	float: none;
+	height: 230px;
+	width: 365px;
+	margin: 0 0 1em 0;
+}
+
+.opening-times {
+	clear: right;
+}
+
+#event-list .events {
+	border-bottom: 1px dashed silver;
+	margin-bottom: 1em;
+}	
+
+#event-list .event {
+	width: 180px;
+	float: left;
+}
+
+#event-list h2.parish {
+	background-color: #1F2847;
+	color: white;
+	padding: 0.25em;
+}
+
+#event-list .event h2 {
+	font-size: 1.2em;
+	font-weight: bold;
+	margin: 0 0 0.5em 0;
+}
+
+#event-list .event-pad {
+	margin-right: 10px;
+}
+
+#event-list .event-total {
+	clear: left;
+}
+
+#event-list .event img {
+	width: 180px;
+	height: 115px;
+}
+
+#event-list .event a img {
+	border-bottom: 10px solid white;
+}
+
+#event-list .event a:hover img {
+	border-bottom: 10px solid #E99231;
+}
+
+#event-list .event p.disciplines {
+	font-style: italic;
+}
+
+#discipline-list h2.discipline {
+	background-color: #1F2847;
+	color: white;
+	padding: 0.25em;
+}
+
+#discipline-list div.events,
+#discipline-list div.venues {
+	padding: 6px;
+	width: 260px;
+	float: left;
+	border: 1px solid silver;
+	margin-bottom: 1em;
+}
+
+#discipline-list div.venues {
+	margin-left: 10px;
+}
+
+#discipline-list ul {
+	list-style-position: outside;
+	margin-left: 1em;
+}
+
+#discipline-list h3 {
+	font-weight: bold;
+}
+
+.clear {
+	clear: both;
+	height: 0px;
+}	
+
+table#tblEvents table {
+	font-size: 0.8em;
+}
+
+.discipline {
+	padding-top: 1em;
+	font-size: 1.4em;
+}
+
+
+.wikitext h1,
+.wikitext h2,
+.wikitext h3,
+.wikitext h4,
+.wikitext h5,
+.wikitext h6 {
+	font-size: 1em;
+	font-weight: bold;
+}
+
+.wikitext h1 {
+	border-bottom: 1px solid #D47A16;
+}
+
+.wikitext img {
+	float: right;
+	margin: 0 0 1em 1em;
+}
+
+#home #main_nav .home,
+#mapping #main_nav .mapping,
+#artists #main_nav .artists,
+#community #main_nav .community,
+#disciplines #main_nav .disciplines,
+#venues #main_nav .venues {
+	background-color: #1F2847;
+}
+
+#home #main_nav .home a,
+#mapping #main_nav .mapping a,
+#artists #main_nav .artists a,
+#community #main_nav .community a,
+#disciplines #main_nav .disciplines a,
+#venues #main_nav .venues a {
+	color: white;
+}
+
+#home #main_nav .home a:hover,
+#mapping #main_nav .mapping a:hover,
+#artists #main_nav .artists a:hover,
+#community #main_nav .community a:hover,
+#disciplines #main_nav .disciplines a:hover,
+#venues #main_nav .venues a:hover {
+	background-color: #1F2847 !important;
+}
+
+.two-column {
+	float: left;
+	width: 370px;
+	margin-right: 10px;
+}
+
+.one-column {
+	text-overflow: ellipsis;
+	overflow: hidden;	
+ }
+
+/* ADMIN */
+
+#admin {
+	background-color: Maroon;
+	color: white;
+}
+
+#admin ul {
+	list-style-type: none;
+	list-style-position: outside;
+	margin: 0;
+	padding: 0 0 0 1em;
+}
+
+#admin li {
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+
+#admin a {
+	display: block;
+	float: left;
+	padding: 0.25em 1em;
+	margin: 1em 0.1em 0 0.1em;
+	background-color: #B22222;
+	color: white;
+}
+
+#admin a:hover {
+	background-color: #660000;
+}
+
+#admin li.info {
+	padding: 0.25em 1em;
+	margin: 1em 0.1em 0 0.1em;
+	float: right;
+}
+
+body.admin #container {
+	width: auto;
+}
+
+body.admin,
+body.admin #content,
+body.admin #header,
+body.admin #header h1,
+body.admin #footer {
+	background-image: none;
+	background-color: white;
+	color: black;
+	height: auto;
+	margin: 0;
+	padding-bottom: 0;
+}
+
+#contactInfo {
+	color: gray;
+}
+
+#contactInfo h1 {
+	color: gray;
+	margin-top: 1em;
+}
+
+.formatted-div ul,
+.formatted-div ol {
+	list-style-position: outside;	
+	padding-left: 1.5em;
+	
+}
+
+.page-draft {
+	background-color: Yellow;
+}
+
+.page-published {
+	background-color: Green;
+}
+
+.page-pending {
+	background-color: Orange;
+}
+
+.page-expired {
+	background-color: Red;
+}
+

@@ -1,0 +1,194 @@
+
+form.zing #divNotify {
+	padding: 18px;
+	margin-bottom: 0.5em;
+}		
+
+form.zing #divNotify.error {
+	border: 1px solid red;
+	background-color: #FFCCCC;
+	color: red;
+	background-image: url(/Zing/Assets/Images/icons/ErrorCircle-32x32.png) !important;
+	background-position: 12px 12px;
+	background-repeat: no-repeat;
+	padding-left: 60px;
+}
+
+form.zing #divNotify.success {
+	border: 1px solid green;
+	background-color: #CCFFCC;
+	color: green;
+	background-image: url(/Zing/Assets/Images/icons/OKShield-32x32.png) !important;
+	background-position: 8px 8px;
+	background-repeat: no-repeat;
+	padding-left: 60px;
+}
+
+form.zing fieldset {
+	border: 0;
+	border-top: 1px solid silver;
+}
+
+form.zing legend {
+	font-size: larger;
+	color: Navy;
+	font-weight: bold;
+}
+	
+form.zing div.form-combo {
+	clear: left;
+	padding: 0.5em 0;
+}
+
+form.zing div.form-combo label {
+	float: left;
+	display: block;
+	width: 150px;
+	text-align: right;
+	margin-right: 10px;
+	padding-top: 3px;
+}
+
+form.zing div.form-combo br {
+	display: none;
+}
+
+form.zing div.form-combo br.clear {
+	display: block;
+	clear: left;
+}
+
+form.zing div.form-combo .form-help {
+	color: #666;
+	margin: 0.5em 0 0 160px;
+	font-size: smaller;
+	clear: left;
+	width: 300px;
+}
+
+form.zing label .form-required {
+	position: absolute;
+	margin-left: 330px;
+}
+
+form.zing div.form-combo input,
+form.zing div.form-combo textarea {
+	width: 300px;
+	padding: 3px;
+	float: left;
+}
+
+form.zing div.form-combo input.file {
+	margin: 2px;
+	padding: 0;
+}
+
+form.zing div.form-combo select {
+	width: 306px;
+}
+	
+form.zing div.form-combo.form-error {
+	background-color: #FFECEC;
+	padding: 0.5em 0 0.5em 0;
+	margin-bottom: 0.5em;
+}
+
+form.zing div.form-combo .form-error {
+	color: red;
+	margin: 0 0 0.5em 160px;
+}
+
+form.zing .fieldset-help {
+	background-color: #FFFFDD;
+	border: 1px solid #ECCC7F;
+	color: #333;
+	padding: 1em 1em 0.1em 1em;
+	margin: 1em 0;
+}
+
+form.zing div.form-combo .form-checkbox-group input,
+form.zing div.form-combo .form-radio-group input {
+	width: auto;
+	padding: 0;
+	top: 2px;
+}
+
+form.zing div.form-combo .form-checkbox-group,
+form.zing div.form-combo .form-radio-group {
+	width: 306px;
+	float: left;
+}
+
+form.zing div.form-combo .form-checkbox-group label,
+form.zing div.form-combo .form-radio-group label {
+	text-align: left;
+	width: 130px;
+	margin-bottom: 5px;
+	margin-right: 0;
+}	
+
+form.zing div.form-combo.disciplines .form-checkbox-group label {
+	width: 270px;
+}
+
+form.zing input.button {
+	padding: 3px;
+}
+
+form.zing fieldset.button-group {
+	border-top: 2px solid silver;
+	padding: 1em 0 0 0;
+	margin-top: 1em;
+}	
+
+form.zing .warning {
+	background-color: #FFFFE0;
+	border: 1px solid yellow;
+	padding: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.form-pagelink {
+	font-size: 0.7em;
+}
+
+form.zing .assignment-group .form-combo {
+	clear: none;
+	display: block;
+	float: left;
+	padding: 0;
+}
+
+form.zing div.assignment-group br {
+	display: block;
+}
+
+form.zing .assignment-group .form-combo label {
+	float: none;
+	display: block;
+	width: auto;
+	text-align: center;
+	padding-bottom: 0.5em;
+	margin: 0;
+}
+
+form.zing .assignment-group span.buttons {
+	float: left;
+	display: block;
+	padding: 2em 1em 0 1em;
+}
+
+form.zing .assignment-group span.buttons input {
+	width: auto;
+	float: none;
+	display: block;
+}
+
+form.zing div.plaintext-combo label {
+	padding-top: 0;
+	font-weight: bold;
+}
+
+form.zing div.plaintext-combo div {
+	margin-left: 160px;
+}

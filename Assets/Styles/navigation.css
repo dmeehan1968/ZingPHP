@@ -1,0 +1,54 @@
+/* VERTICAL NAV */
+
+.zing-nav-vertical ul {
+	list-style-position: outside;
+	margin: 0;
+	padding: 0;
+}
+
+.zing-nav-vertical ul ul {
+	margin-left: 2em;
+}
+
+.zing-nav-vertical li {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+* html .zing-nav-vertical li {
+	height: 1px;
+}
+
+/* HORIZONTAL NAV */
+
+.zing-nav-horizontal ul {
+	margin: 0;
+	padding: 0;
+}
+
+.zing-nav-horizontal li {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	list-style-type: none;
+}
+
+.zing-nav-horizontal a {
+	display: block;
+	float: left;
+	padding: 0.25em 1em;
+	margin: 1em 2px 0 2px;
+}
+
+.zing-nav-horizontal li.info
+{
+	padding: 0.25em 1em;
+	margin: 1em 0.1em 0 0.1em;
+	float: right;
+}
+
+.zing-nav-horizontal li.logout {
+	float: right;
+	margin-right: 0.5em;
+}

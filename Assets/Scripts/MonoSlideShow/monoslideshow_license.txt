@@ -1,0 +1,25 @@
+Monoslideshow license
+
+The following is a legal agreement between you and Monokai. Read this agreement carefully before using Monoslideshow.
+
+1. When you purchase Monoslideshow, Monokai grants you a non-exclusive, non-transferable license to use Monoslideshow subject to the restrictions defined below.
+
+2. Monoslideshow may not be resold or sublicensed in any way.
+
+3. You may not loan, rent, transfer or grant any rights to Monoslideshow contained herein, or any compilation, derivative or collective work containing Monoslideshow to any other person or organization without the prior written consent of Monokai.
+
+4. Monoslideshow may only be used if it is bought from www.monoslideshow.com.
+
+5. Monoslideshow may be used in personal or commercial client projects.
+
+6. Monoslideshow may be used multiple times on one web site. Implementations of Monoslideshow on multiple web sites require multiple licenses.
+
+7. Monoslideshow may not be republished, resold or otherwise made available as part or feature of a third-party product or web site.
+
+8. Monokai retains all rights not expressly granted by this license.
+
+9. This license is in full force until it is terminated. If you do not comply with the terms and conditions above, the license automatically terminates.
+
+10. Monoslideshow is provided "as is." You agree to hold Monokai harmless for any damages that may occur due to use, or inability to use Monoslideshow.
+
+11. This agreement will be governed by the laws in force in the Netherlands.

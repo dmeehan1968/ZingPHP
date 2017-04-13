@@ -1,0 +1,200 @@
+
+/* FIELDSET */
+
+form.zing fieldset {
+	border-top: 1px solid silver;
+	padding: 2%;
+	margin: 0;
+}
+
+form.zing fieldset fieldset {
+	border: 0;
+	padding: 0;
+}
+
+form.zing fieldset.button-group {
+	text-align: right;
+}
+
+form.zing fieldset.button-group span.default {
+	float: left;
+}
+
+/* LEGEND */
+
+form.zing legend {
+	font-size: larger;
+	color: Navy;
+	font-weight: bold;
+	padding: 0 1em;
+}
+
+* html form.zing legend {
+	margin-bottom: 2em;
+}
+
+/* FIELDS */
+
+form.zing div.form-combo {
+	margin-bottom: 1em;
+}
+
+/* LABELS */
+
+form.zing label {
+	display: block;
+	float: left;
+	width: 130px;
+	margin: 0 10px 0 0;
+	text-align: right;
+}
+
+form.zing div.input label {
+	margin-top: 3px;
+}
+
+form.zing div.form-combo br {
+	display: none;
+}
+
+/* REQUIRED */
+
+form.zing div.form-required label {
+	font-weight: bold;
+}
+
+form.zing label abbr.form-required {
+	display: none;
+}
+
+/* FIELD HELP */
+
+form.zing div.form-help {
+	color: gray;
+	margin-left: 140px;
+}
+
+/* FIELD ERRORS */
+
+form.zing div.form-error {
+	background-color: #ffeeee;
+	padding: 0.5em 0.5em 0.5em 0;
+}
+
+form.zing div.form-error div.form-error {
+	border: 0;
+	margin-left: 120px;
+	color: red;
+	font-weight: bold;
+	background-image: url(/Zing/Assets/Images/icons/icon_error.gif) !important;
+	background-repeat: no-repeat;
+	background-position: 0 5px;
+	padding-left: 25px;
+	padding-bottom: 1em;
+}
+
+/* NOTIFICATION */
+
+form.zing div.notification {
+	padding: 18px;
+	margin-bottom: 0.5em;
+	background-repeat: no-repeat;
+	background-position: 10px center !important;
+	padding-left: 60px;
+}		
+
+form.zing div.notification-error {
+	border: 1px solid red;
+	background-color: #FFCCCC;
+	color: red;
+	background-image: url(/Zing/Assets/Images/icons/ErrorCircle-32x32.png) !important;
+}
+
+form.zing div.notification-success {
+	border: 1px solid green;
+	background-color: #CCFFCC;
+	color: green;
+	background-image: url(/Zing/Assets/Images/icons/OKShield-32x32.png) !important;
+}
+
+form.zing div.notification-warning {
+	border: 1px solid orange;
+	background-color: #FFFFCC;
+	background-image: url(/Zing/Assets/Images/icons/Sistema-Locked-32x32.png) !important;
+	color: black;
+}
+
+/* INPUT */
+
+form.zing input {
+	padding: 3px;
+}
+
+form.zing textarea {
+	width: 100%;
+}
+
+form.zing div.textarea label {
+	display: none;
+}
+
+form.zing div.textarea div.form-help {
+	margin-left: 0;
+}
+
+/* SELECT */
+
+form.zing select {
+	width: 300px;
+}
+
+/* ASSIGNMENT GROUP */
+
+form.zing div.assignment-group .form-combo {
+	clear: none;
+	display: block;
+	float: left;
+	padding: 0;
+}
+
+form.zing div.assignment-group br {
+	display: block;
+}
+
+form.zing div.assignment-group .form-combo label {
+	float: none;
+	display: block;
+	width: auto;
+	text-align: center;
+	padding-bottom: 0.5em;
+	margin: 0;
+}
+
+form.zing div.assignment-group span.buttons {
+	float: left;
+	display: block;
+	padding: 2em 1em 0 1em;
+}
+
+form.zing div.assignment-group span.buttons input {
+	width: auto;
+	float: none;
+	display: block;
+}
+
+/* PLAIN TEXT COMBO */
+
+form.zing div.plaintext-combo label {
+	padding-top: 0;
+	font-weight: bold;
+}
+
+form.zing div.plaintext-combo div {
+	margin-left: 160px;
+}
+
+/* RICH TEXT EDITOR */
+
+form.zing textarea.editor-hidden {
+	display: none;
+}

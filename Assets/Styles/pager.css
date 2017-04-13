@@ -1,0 +1,25 @@
+.pager-results,
+.pager-first,
+.pager-last,
+.pager-next,
+.pager-previous,
+.pager-context,
+.pager-current {
+	margin-right: 1em;
+}
+
+.pager-context,
+.pager-current {
+	border-right: 1px solid silver;
+	padding-right: 1em;
+}
+
+.pager-context-first {
+	padding-left: 1em;
+	border-left: 1px solid silver;
+
+}
+
+.pager {
+	margin-top: 1em;
+}

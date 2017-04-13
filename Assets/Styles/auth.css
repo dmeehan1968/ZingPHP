@@ -1,0 +1,36 @@
+
+body.admin form#frmAuthUserPermissions {
+	margin-top: 3em;
+}
+
+body.admin .acladmin input.checkbox,
+body.admin .acladmin input.text {
+	margin-right: 0.5em;
+}
+
+body.admin .acladmin {
+	width: 31%;
+	float: left;
+	margin-right: 2%;
+}
+
+body.admin .acladmin fieldset {
+	padding-top: 1em;
+}
+
+body.admin #acladmin-permissions {
+	margin-right: 0;
+}
+
+
+div.acladmin form.zing div.form-checkbox-combo {
+	clear: left;
+}
+
+div.acladmin form.zing div.form-checkbox-combo input {
+	float: left;
+}
+
+div.acladmin form.zing div.form-checkbox-combo label {
+	width: auto;
+}
