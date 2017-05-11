@@ -1,6 +1,9 @@
 <?php
 
-ini_set('include_path', dirname(__FILE__) . '/' . 'vendor/pear' . ':' . ini_get('include_path'));
+define('PEAR_PATH', dirname(__FILE__) . '/' . 'vendor/pear');
+ini_set('include_path', PEAR_PATH . '/' . 'mail' . ':' . ini_get('include_path'));
+ini_set('include_path', PEAR_PATH . '/' . 'net_smtp' . ':' . ini_get('include_path'));
+ini_set('include_path', PEAR_PATH . '/' . 'net_socket' . ':' . ini_get('include_path'));
 
 if (defined('ZING_AUTOLOAD')) {
 	function __autoload($class) {
