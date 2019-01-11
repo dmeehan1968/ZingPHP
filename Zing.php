@@ -22,10 +22,10 @@ if (defined('ZING_PROFILER') && ZING_PROFILER) {
 	// create a dummy instance of the PQP Console class
 	class Console {
 		public static function log() {	}
-		public function logMemory() { }
-		public function logError() { }
-		public function logSpeed() { }
-		public function getLogs() {	}
+		public static function logMemory() { }
+		public static function logError() { }
+		public static function logSpeed() { }
+		public static function getLogs() {	}
 	}
 }
 
@@ -42,7 +42,7 @@ class Zing {
 	 *		a reference to the zing singleton
 	 */
 	public function getInstance() {
-		if (is_null(self::$instance)) { 
+		if (is_null(self::$instance)) {
 			self::$instance = new Zing;
 		}
 		return self::$instance;
@@ -178,7 +178,7 @@ class Zing {
 		'THtmlGoogleMapMarker'			=> 'Web/Google/THtmlGoogleMapMarker.php',
 		'THtmlGoogleMapMarkerV3'			=> 'Web/Google/THtmlGoogleMapMarkerV3.php',
 		'MultiMapGeocoder'				=> 'Libs/MultiMapGeocoder.php',
-		
+
 		'TextParser'					=> 'Text/TextParser.php',
 		'TextParser_Parser'				=> 'Text/TextParser_Parser.php',
 		'TextParser_Renderer'			=> 'Text/TextParser_Renderer.php',
@@ -221,10 +221,10 @@ class Zing {
 		'Xhtml_Render_Weblink'			=> 'Text/Xhtml_Render_Weblink.php',
 		'Xhtml_Render_LineBreak'		=> 'Text/Xhtml_Render_LineBreak.php',
 
-		'TwitterFollowButton'			=> 'Web/Twitter/TwitterFollowButton.php', 
-		'TwitterMentionButton'			=> 'Web/Twitter/TwitterMentionButton.php', 
+		'TwitterFollowButton'			=> 'Web/Twitter/TwitterFollowButton.php',
+		'TwitterMentionButton'			=> 'Web/Twitter/TwitterMentionButton.php',
 );
-	
+
 	public static function addClass($class, $file) {
 		if (substr($file,0,1) != '/') {
 			$sess = TSession::getInstance();
@@ -232,32 +232,32 @@ class Zing {
 		}
 		zing::$aliases[$class] = $file;
 	}
-	
+
 	/**
 	 * Class autoloader that maps class names to implementation files
 	 *
 	 * The Zing autoloader is designed to simplify inclusion of component files
-	 * by accessing a central map of class names to implementation files, which 
+	 * by accessing a central map of class names to implementation files, which
 	 * may be stored in seperate sub-directories for logical grouping.
 	 *
-	 * The autoload function can be enabled by defining ZING_AUTOLOAD prior to 
+	 * The autoload function can be enabled by defining ZING_AUTOLOAD prior to
 	 * inclusion of zing.php.
 	 *
-	 * If it is required to support autoload functionality for other aspects of 
+	 * If it is required to support autoload functionality for other aspects of
 	 * the project, zing::autoload() can be called from within the applications own
 	 * __autoload() implementation.
 	 *
 	 * @param string $class
 	 *		the name of the class to load
 	 */
-	
+
 	public static function __autoload($class) {
-	
+
 		if (isset(zing::$aliases[$class])) {
 			require_once zing::$aliases[$class];
-		}		
+		}
 	}
-	
+
 	public static function Uses($namespace) {
 		if (is_string($namespace)) {
 			$namespace = new TNamespace($namespace);
@@ -285,17 +285,17 @@ class Zing {
 	}
 
 	private static $controlId = 0;
-	
+
 	public static function createControlId() {
 		return self::$controlId++;
 	}
 
 	public $events = array();
-	
+
 	public function observedEvent($object, $event, $params) {
 		list($micro, $time) = explode(' ',microtime());
 		$tstr = strftime('%Y/%m/%d %H:%M',$time) . substr($micro,1);
-		
+
 		$this->events[] = array('time' => $tstr, 'times' => ((float)$time + (float)$micro), 'object' => $object, 'event' => $event, 'params' => $params);
 	}
 
@@ -303,11 +303,11 @@ class Zing {
 		if (is_bool($value)) {
 			return $value;
 		}
-		
+
 		if (strcasecmp($value,'yes') == 0 || strcasecmp($value,'true') == 0 || (int) $value) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -318,7 +318,7 @@ class Zing {
 		$str = substr($str, 0, $len-3);
 		return $str.'...';
 	}
-	
+
 	public function urltext($string) {
 		$output = '';
 		$last = '-';
@@ -333,17 +333,17 @@ class Zing {
 				}
 			}
 		}
-		
+
 		if ($last == '-') {
 			$output = substr($output, 0, strlen($output)-1 );
 		}
 		return $output;
 	}
-	
+
 	public static function encodeHex($str) {
 		return '%' . substr( chunk_split( bin2hex( $str ), 2, '%'), 0, -1);
 	}
-	
+
 	public static function encodeEntity($str) {
 		return '&#x' . substr( chunk_split( bin2hex( $str ), 2, ';&#x'), 0, -3);
 	}
@@ -359,7 +359,7 @@ class Zing {
 		}
 		return $str;
 	}
-		
+
 	public static function webLink($str) {
 		if (preg_match('/^([A-Z]+:\/\/)?[A-Z][A-Z0-9\-_]+(\.[A-Z0-9][A-Z0-9\-_]+)+(:\d+)?(\/[^\/\?\s]+)*(\?.*)?$/i', $str)) {
 			$link = zing::create('THtmlLink', array('href' => (strstr($str,'://') === false ? 'http://' : '') . $str, 'innerText' => $str, 'target' => '_blank'));
@@ -376,14 +376,14 @@ class Zing {
 		$time = strtotime($str);
 		return gmdate($format, $time);
 	}
-	
+
 	public static function timeToSqlDateTime($time = null, $format = 'Y-m-d H:i:s') {
 		if (is_null($time)) {
 			$time = time();
 		}
 		return gmdate($format, $time);
 	}
-	
+
 	public function convertArrayToObject($array, $class) {
 		$objects = array();
 		foreach ($array as $element) {
@@ -395,7 +395,7 @@ class Zing {
 		}
 		return $objects;
 	}
-			
+
 	public function getParentPath($path) {
 		$folders = explode('/', $path);
 		array_pop($folders);
