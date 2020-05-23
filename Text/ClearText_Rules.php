@@ -16,9 +16,10 @@ class ClearText_Rules extends TextParser_Rules {
 		'Preformatted' =>	40,
 		'Paragraph' =>		40,
 
-		'Strong' =>			50,
-		'Emphasis' =>		50,
 		'Links' =>			50,
+
+		'Strong' =>			60,
+		'Emphasis' =>		60,
 
 		'Entities'	=> 		100,
 		'Fractions'	=> 		100,
