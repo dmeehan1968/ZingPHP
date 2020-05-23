@@ -319,7 +319,7 @@ class Zing {
 		return $str.'...';
 	}
 
-	public function urltext($string) {
+	public static function urltext($string) {
 		$output = '';
 		$last = '-';
 		$allowed = 'abcdefghijklmnopqrstuvwxyz01234567890';
