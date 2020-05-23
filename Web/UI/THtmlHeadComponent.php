@@ -28,7 +28,7 @@ class THtmlHeadComponent extends THtmlDiv {
 		return $this->overwrite;
 	}
 
-	public function setInnerText($text) {
+	public function setInnerText($text, $forceEmpty = false) {
 		$this->children->deleteAll();
 		$this->children[] = zing::create('TPlainText', array('value' => $text));
 	}

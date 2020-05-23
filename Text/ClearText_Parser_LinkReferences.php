@@ -37,7 +37,7 @@ class ClearText_Parser_LinkReferences extends TextParser_Parser {
 		return '';
 	}
 
-	public function parse($text, $replaced) {
+	public function parse($text, &$replaced) {
 		// surpress renderer
 		return parent::parse($text, $notused);
 	}
