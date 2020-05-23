@@ -7,7 +7,7 @@ class ClearText_Parser_Links extends TextParser_Parser {
 						\[					# square bracket
 						(
 							(
-								(?:\w[\w\d-_]*:)*	# namespace (optional)
+								(?:\w[\w\d\-_]*:)?	# namespace (optional)
 							)
 							(
 								(.*?)		# uri (optional)

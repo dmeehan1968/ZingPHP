@@ -7,15 +7,15 @@ class ClearText_Parser_Heading extends TextParser_Parser {
 						^						# start of line
 						(?!\\\\)				# not preceeded by escape
 						(?:
-							([-=+]{1,6})		# 1-6 hypen, equals or plus
+							([\-=+]{1,6})		# 1-6 hypen, equals or plus
 							\s*(.+?)\s*			# strip space but capture one or more
 							\1					# repeat of opening sequence
 							\s*					# strip trailing spaces
 							|					# or
 							\s*
-								(?:\.(\w[\w\d-_]*)\s+)?	# .classname
+								(?:\.(\w[\w\d\-_]*)\s+)?	# .classname
 								(.+?)\s*\n		# text on a line
-							((?:[=-]){5,})		# followed by 5 or more equals or hyphens
+							((?:[=\-]){5,})		# followed by 5 or more equals or hyphens
 						)
 						(?=\n\n|\n*\z)		# followed by 2 newlines or end
 					/mx';	
