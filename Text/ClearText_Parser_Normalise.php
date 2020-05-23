@@ -2,8 +2,8 @@
 
 class ClearText_Parser_Normalise extends TextParser_Parser {
 	
-	public function parse($text, $replaced) {
 		
+	public function parse($text, &$replaced) {
 		$replaced = 0;		// don't report replacements, or it will need a renderer
 		
 		$text = preg_replace(
