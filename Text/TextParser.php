@@ -26,7 +26,7 @@ class TextParser {
 	const BLOCK = 'B';
 	const SPAN = 'S';
 	
-	public function TextParser($ruleSet) {
+	public function __construct($ruleSet) {
 		$this->ruleSet = $ruleSet;
 	}
 	
