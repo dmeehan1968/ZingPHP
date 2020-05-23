@@ -8,7 +8,7 @@ class THtmlFileList extends TModule {
 	}
 
 	public function preRender() {
-		
+
 		$sess = TSession::getInstance();
 		$page = $sess->app->request->page;
 		if ($page < 1) {
@@ -21,25 +21,25 @@ class THtmlFileList extends TModule {
 			$this->authManager->login($sess->app->server->request_uri, $e->getCode());
 
 		}
-		
+
 		if (count($dir) < 1) {
 			$this->children->deleteAll();
 			$content = $this->children[] = zing::create('StaticOrNotFound');
 			$content->doStatesUntil('loadComplete');
 		} else {
-				
+
 			$this->setBoundObject($dir);
-	
+
 			$paths = explode('/', $this->resolvePath($path, $sess->parameters['cms.files.rootpath']));
-			
+
 			$this->pathTitle->setInnerText('Path: ');
-			
+
 			$this->pathTitle->children[] = zing::create('THtmlLink', array('module' => 'Zing/Web/CMS/THtmlFileList', 'innerText' => ' / '));
-	
+
 			if (empty($paths[0])) {
 				array_pop($paths);
 			}
-	
+
 			foreach($paths as $index => $path) {
 				$stub = array_slice($paths, 0, $index+1);
 				$stub = implode('/', $stub) . '/';
@@ -47,20 +47,20 @@ class THtmlFileList extends TModule {
 					$this->pathTitle->children[] = zing::create('THtmlInnerText', array('value' => ' / '));
 				}
 				$this->pathTitle->children[] = zing::create('THtmlLink', array('module' => 'Zing/Web/CMS/THtmlFileList', 'dir' => $stub , 'innerText' => $path));
-	
+
 			}
-			
+
 			$this->frmCmsFileDelete->setAction($this->frmCmsFileDelete->getAction() . '?page=' . $sess->app->request->page);
 		}
-		
+
 		parent::preRender();
 	}
-	
+
 	public function getIcon($file) {
 		$iconPath = $file->getIconPath();
 		return zing::create('THtmlImage', array('src' => $iconPath));
 	}
-	
+
 	public function insertCheckbox($control, $params) {
 		$file = $control->getBoundObject();
 		$control->children->deleteAll();
@@ -72,7 +72,7 @@ class THtmlFileList extends TModule {
 			$child->doStatesUntil('preRender');
 		}
 	}
-	
+
 	public function insertPreviewLink($control, $params) {
 		$sess = TSession::getInstance();
 		$file = $control->getBoundObject();
@@ -112,7 +112,7 @@ class THtmlFileList extends TModule {
 
 		if (!is_null($rootpath)) {
 			foreach (explode('/', $rootpath) as $index => $dir) {
-				if ($dir == $output[0]) {	
+				if ($dir == $output[0]) {
 					array_shift($output);
 				} else {
 					return '';
@@ -126,7 +126,7 @@ class THtmlFileList extends TModule {
 		$result = implode('/', $output);
 		return $result;
 	}
-	
+
 	public function addFile($control, $params) {
 		$sess = TSession::getInstance();
 		$errors = array();
@@ -134,18 +134,18 @@ class THtmlFileList extends TModule {
 			$path = $this->resolvePath($sess->parameters['cms.files.rootpath'] . '/' . $sess->app->request->dir, null);
 
 			$targetFile = $path . '/' . $sess->app->files->upload['name'];
-			
+
 			if (file_exists($targetFile)) {
 				$errors[] = 'The uploaded file already exists, please rename, delete or try again';
 			} else {
-			
+
 				if (is_writable($path)) {
 					move_uploaded_file($sess->app->files->upload['tmp_name'], $targetFile);
 					chmod($targetFile, 0644);
 				} else {
 					$errors[] = 'Unable to save the uploaded file';
 				}
-				
+
 				if (file_exists($sess->app->files->upload['tmp_name'])) {
 					@unlink($sess->app->files->upload['tmp_name']);
 				}
@@ -155,16 +155,16 @@ class THtmlFileList extends TModule {
 		} else {
 			$errors[] = 'There was an error with the uploaded file, please try again';
 		}
-		
+
 		if (count($errors)) {
 			$this->divNotify->setInnerText(implode(', ', $errors));
 			$this->divNotify->addClass('error');
 		} else {
 			$this->divNotify->setInnerText($sess->app->files->upload['name'] . ' Uploaded successfully');
 			$this->divNotify->addClass('success');
-		}			
+		}
 	}
-	
+
 	public function deleteFiles($control, $params) {
 		$sess = TSession::getInstance();
 		$errors = array();
@@ -183,14 +183,14 @@ class THtmlFileList extends TModule {
 					$cnt++;
 				} else {
 					$errors[] = 'Unable to delete file ' . $filename;
-				}					
+				}
 			}
 		}
 		$success = ($cnt == count($sess->app->request->filesToDelete)) && $cnt > 0;
 		$this->divNotify->setInnerText($cnt . ' Files deleted' . ($success ? ' successfully' : (count($errors) ? ' - ' . implode(', ', $errors) : '')));
 		$this->divNotify->addClass($success ? 'success' : 'error');
 	}
-	
+
 	public function addFolder($control, $params) {
 		$folder = trim($this->folder->getValue());
 		if ( ! empty($folder)) {
@@ -215,7 +215,7 @@ class THtmlFileList extends TModule {
 			$this->folder->setValue('');
 		}
 	}
-	
+
 	public function formatTime($control, $params) {
 		$control->setInnerText(gmdate('d/m/Y H:i', $control->getInnerText()));
 	}

@@ -4,7 +4,7 @@ class TYuiInPlaceEditor extends THtmlDiv {
 
 	private $loader;
 	private $raw;
-	
+
 	public function __construct($params = array()) {
 
 		$this->loader = zing::create('TYuiLoader');
@@ -14,26 +14,26 @@ class TYuiInPlaceEditor extends THtmlDiv {
 
 		$this->innerDiv = zing::create('THtmlDiv', array('class' => 'editor-inactive'));
 		$this->raw = $this->innerDiv->children[] = zing::create('TRawOutput');
-		
+
 		parent::__construct($params);
-		
+
 		$this->children[] = $this->loader;
 		$this->children[] = $this->innerDiv;
 	}
-	
+
 	public function init() {
 		$this->addClass('in-place-editor');
 		parent::init();
 	}
-	
+
 	public function setInnerText($text) {
 		$this->raw->setInnerText($text);
 	}
-	
+
 	public function getInnerText() {
 		return $this->raw->getInnerText();
 	}
-	
+
 	public function setAuthPermsEditor($perms) {
 		$this->loader->setAuthPerms($perms);
 	}

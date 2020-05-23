@@ -1,7 +1,7 @@
 <?php
 
 class ClearText_Parser_Heading extends TextParser_Parser {
-	
+
 	public $regexp = '/
 						(?<=\A|\A\n|\n\n)		# preceeded by 2 newlines or start
 						^						# start of line
@@ -18,8 +18,8 @@ class ClearText_Parser_Heading extends TextParser_Parser {
 							((?:[=\-]){5,})		# followed by 5 or more equals or hyphens
 						)
 						(?=\n\n|\n*\z)		# followed by 2 newlines or end
-					/mx';	
-	
+					/mx';
+
 	public function parse($text, &$replaced) {
 		$text = parent::parse($text, $replaced);
 		if ($replaced) {
@@ -30,7 +30,7 @@ class ClearText_Parser_Heading extends TextParser_Parser {
 		}
 		return $text;
 	}
-	
+
 	public function onMatch($match) {
 		if (!empty($match[1])) {
 			$heading = $match[2];
@@ -45,12 +45,12 @@ class ClearText_Parser_Heading extends TextParser_Parser {
 		if (!empty($match[3])) {
 			$class .= (!empty($class) ? ' ' : '') . $match[3];
 		}
-		
+
 		$params = array('id' => $id, 'level' => $level, 'class' => $class);
 		$start = $this->addToken(TextParser::BLOCK, array_merge($params, array('type' => 'start')));
 		$end = $this->addToken(TextParser::BLOCK, array_merge($params,array('type' => 'end')));
-		
-		return $start . $heading . $end;		
+
+		return $start . $heading . $end;
 	}
 }
 

@@ -10,7 +10,7 @@ class THtmlRadioCombo extends THtmlCheckboxCombo {
 		$this->addClass('form-radio-combo');
 		THtmlDiv::init();
 	}
-	
+
 	public function setControlId($id, $value) {
 		$ctlId = $id . '[' . $value . ']';
 		$this->control->setId($ctlId);

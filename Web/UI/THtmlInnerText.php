@@ -3,7 +3,7 @@
 class THtmlInnerText extends TControl {
 
 	private	$value;
-	
+
 	public function setValue($value, $forceEmpty = false) {
 		if (!$forceEmpty && empty($value) && $value !== 0) {
 			unset($this->value);
@@ -11,15 +11,15 @@ class THtmlInnerText extends TControl {
 			$this->value = $value;
 		}
 	}
-	
+
 	public function getValue() {
 		return $this->value;
 	}
-	
+
 	public function hasValue() {
 		return isset($this->value);
 	}
-	
+
 	public function bind() {
 		if ($this->hasBoundProperty() && $this->hasBoundObject()) {
 			$property = $this->getBoundProperty();
@@ -28,12 +28,12 @@ class THtmlInnerText extends TControl {
 
 			$this->setValue($value);
 		}
-		
+
 		parent::bind();
-	}	
-	
+	}
+
 	private $callbacks;
-	
+
 	public function setCallbacks($callbacks) {
 		if (is_array($callbacks)) {
 			$this->callbacks = implode(',', $callbacks);
@@ -41,11 +41,11 @@ class THtmlInnerText extends TControl {
 			$this->callbacks = $callbacks;
 		}
 	}
-	
+
 	public function getCallbacks() {
 		return explode(',',$this->callbacks);
 	}
-	
+
 	public function hasCallbacks() {
 		return isset($this->callbacks);
 	}
@@ -69,7 +69,7 @@ class THtmlInnerText extends TControl {
 						}
 						echo $value;
 					} else {
-						// DJM 2016-04-19: Added character set to ensure correct conversion 
+						// DJM 2016-04-19: Added character set to ensure correct conversion
 						// and avoid blank output
 						echo htmlentities($this->value, ENT_QUOTES | ENT_SUBSTITUTE, 'iso-8859-1');
 					}

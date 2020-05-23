@@ -8,12 +8,12 @@ class THtmlAuthUserList extends TModule {
 	}
 
 	public function preRender() {
-	
+
 		$sess = TSession::getInstance();
-	
+
 		$users = AuthUser::findAll($sess->parameters->pdo);
 		$this->setBoundObject($users);
-	
+
 		parent::preRender();
 	}
 
@@ -26,7 +26,7 @@ class THtmlAuthUserList extends TModule {
 		$child = $control->children[] = zing::create('THtmlCheckbox', $params);
 		$child->doStatesUntil('preRender');
 	}
-	
+
 	public function insertUserLink($control, $params) {
 		if ($this->authManager->hasPerm('AuthUserEdit')) {
 			$user = $control->getBoundObject();
@@ -39,7 +39,7 @@ class THtmlAuthUserList extends TModule {
 			$child->doStatesUntil('preRender');
 		}
 	}
-	
+
 	public function insertStatus($control, $params) {
 		$authuser = $control->getBoundObject();
 		$control->children->deleteAll();
@@ -54,9 +54,9 @@ class THtmlAuthUserList extends TModule {
 
 	public function addUser($control, $params) {
 		$sess = TSession::getInstance();
-		$sess->app->redirect('Zing/Web/Auth/THtmlAuthUserEdit', array('user_id' => 'new'));	
+		$sess->app->redirect('Zing/Web/Auth/THtmlAuthUserEdit', array('user_id' => 'new'));
 	}
-	
+
 	public function deleteUsers($control, $params) {
 		$sess = TSession::getInstance();
 		$count = 0;
@@ -66,10 +66,10 @@ class THtmlAuthUserList extends TModule {
 				$count++;
 			}
 		}
-		
+
 		$this->divNotify->setNotification($count ? true : false, $count . ' users deleted');
 	}
-	
+
 	public function insertAuthNames($control, $authName) {
 		$control->children->deleteAll();
 		$user = $control->getBoundObject();
@@ -77,7 +77,7 @@ class THtmlAuthUserList extends TModule {
 			$control->children[] = zing::create('THtmlDiv', array('innerText' => $name->name));
 		}
 	}
-	
+
 	public function insertUserGroups($control, $params) {
 		$this->insertAuthNames($control, 'groups');
 	}

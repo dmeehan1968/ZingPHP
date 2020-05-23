@@ -13,24 +13,24 @@ class TTemplateControl extends TCompositeControl {
 		}
 		parent::preInit();
 	}
-	
+
 	private $lowercaseAttribs = true;
-	
+
 	public function setLowercaseAttribs($bool) {
 		$this->lowercaseAttribs = zing::evaluateAsBoolean($bool);
 	}
-	
+
 	public function getLowercaseAttribs() {
 		return $this->lowercaseAttribs;
 	}
-	
+
 	public function convertAttrib($attrib) {
 		if ($this->getLowercaseAttribs()) {
 			return strtolower($attrib);
 		}
 		return $attrib;
 	}
-	
+
 	public function init() {
 
 		if ($this->hasTemplatePath()) {
@@ -45,11 +45,11 @@ class TTemplateControl extends TCompositeControl {
 			$containerStartLine = 0;
 			$linenum = 1;
 			$container = $this;
-			
+
 			foreach ($matches as $index => $match) {
-				
+
 				$linenum += count(explode("\n",$match[0][0])) - 1;
-				
+
 				$offset = $match[0][1];
 				if ($offset > $lastOffset) {
 					$html = $container->children[] = zing::create('TPlainText');
@@ -60,7 +60,7 @@ class TTemplateControl extends TCompositeControl {
 				}
 
 				$lastOffset = $offset + strlen($match[0][0]);
-				
+
 				$isClosing = $match[1][0] == '/';
 				$class = $match[2][0];
 				$arguments = $match[3][0];
@@ -70,9 +70,9 @@ class TTemplateControl extends TCompositeControl {
 				$objectArgs = array();
 
 				while(preg_match("#(\w+)\s*=\s*\"(.*?)\"#i", $arguments, $property, PREG_OFFSET_CAPTURE, $off)) {
-					
+
 					$objectArgs[$this->convertAttrib(trim($property[1][0]))] = trim($property[2][0]);
-					
+
 					$off = $property[0][1] + strlen($property[0][0]);
 				}
 
@@ -102,15 +102,15 @@ class TTemplateControl extends TCompositeControl {
 				$html->preInit();
 			}
 
-		}	
+		}
 
 		parent::init();
 	}
-	
+
 	public function getTemplatePath() {
 		return $this->templatePath;
 	}
-	
+
 	public function setTemplatePath($path) {
 		$this->templatePath = $path;
 	}
@@ -119,7 +119,7 @@ class TTemplateControl extends TCompositeControl {
 		return isset($this->templatePath);
 	}
 
-	public function getDefaultTemplate() {	
+	public function getDefaultTemplate() {
 		$rc = new ReflectionClass($this);
 		return str_replace('.php', '.tpl', $rc->getFileName());
 	}

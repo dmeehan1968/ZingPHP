@@ -57,14 +57,14 @@ class ClearText_Parser_Weblink extends TextParser_Parser {
 
 			parent::__construct($parser);
 	}
-					
+
 	public function onMatch($match) {
 		foreach ($match as $key => $notused) {
 			if (is_int($key)) {
 				unset($match[$key]);
 			}
 		}
-		
+
 		return $this->addToken(TextParser::SPAN, array('uri' => $match));
 	}
 

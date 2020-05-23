@@ -6,11 +6,11 @@ class THtmlBodyPlaceholder extends THtmlControl {
 		parent::init();
 		$this->setTag('body');
 	}
-	
+
 	public function render() {
 		$top = $this->getTopControl();
 		$controls = $this->getDescendantsByClass('THtmlBodyComponent');
-		
+
 		foreach ($controls as $control) {
 			if ($control->isVisible()) {
 				foreach ($control->attributes as $key => $attr) {
@@ -23,14 +23,14 @@ class THtmlBodyPlaceholder extends THtmlControl {
 						break;
 					}
 				}
-				
+
 				foreach ($control->children as $key => $child) {
 					$this->children[$key] = $child;
 				}
 			}
 		}
-		
-		parent::render();	
+
+		parent::render();
 	}
 
 }

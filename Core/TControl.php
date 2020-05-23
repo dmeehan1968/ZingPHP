@@ -3,20 +3,20 @@
 class TControl implements IBindable, IContained, IControlState, IEvent, IIdentity, IObservable, IVisibility {
 
 	public $session;
-	
+
 	function __construct($params = array()) {
 
 		$this->authManager = TAuthentication::getInstance();
 		$this->session = TSession::getInstance();
 
 		$this->parseParams($params);
-	}		
+	}
 
 	public function parseParams($params) {
 		if (!is_array($params)) {
 			$params = array('id' => $params);
 		}
-		
+
 		if (!isset($params['id'])) {
 			$params['id'] = null;
 		}
@@ -27,9 +27,9 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 	}
 
 	/* =========================== IOBSERVABLE =============================*/
-	
+
 	public $observers = array();
-	
+
 	public function notifyObservers($event, $params = array()) {
 		foreach ($this->observers as $ob) {
 			$ob->observedEvent($this, $event, $params);
@@ -37,25 +37,25 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 	}
 
 	/* ============================ IIDENTITY ==============================*/
-	
+
 	private $id;
-	
+
 	public function getID() {
 		return $this->id;
 	}
-	
+
 	public function setID($id) {
-		$this->id = $id;	
+		$this->id = $id;
 	}
-	
+
 	public function hasID() {
 		return isset($this->id);
 	}
 
 	/* =========================== ICONTAINED ==============================*/
-		
+
 	private $container;
-	
+
 	public function getContainer($class = NULL) {
 		if (! is_null($class)) {
 			if ($this->container instanceof $class) {
@@ -66,15 +66,15 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 		}
 		return $this->container;
 	}
-	
+
 	public function setContainer($container) {
 		$this->container = $container;
 	}
-	
+
 	public function hasContainer() {
 		return isset($this->container);
 	}
-	
+
 	public function getTopControl() {
 		$control = $this;
 		while ($control instanceof IContained && $control = $control->getContainer()) {
@@ -82,9 +82,9 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 		}
 		return $control;
 	}
-	
+
 	/* ========================= ICONTROLSTATE ============================*/
-	
+
 	public function preInit() {
 //		zing::debug(get_class($this) . '(' . $this->getid() . ')' . '->preInit()');
 		$this->notifyObservers('preInit');
@@ -142,13 +142,13 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 //		zing::debug(get_class($this) . '(' . $this->getid() . ')' . '->preRender()');
 
 		$this->bind();
-		
+
 		$this->notifyObservers('preRender');
 		$this->fireEvent('onPreRender', $this);
 		if ($this->hasOnPreRender()) {
 			$this->fireEvent($this->getOnPreRender(), $this);
 		}
-	}	
+	}
 
 	public function render() {
 		if ($this->getVisible() && $this->hasPermission()) {
@@ -178,11 +178,11 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 	}
 
 	private $states = array('preInit', 'init', 'initComplete', 'auth', 'preLoad', 'load', 'loadComplete', 'prePost', 'post', 'postComplete', 'preRender', 'render', 'renderComplete');
-	
+
 	public function addState($newState, $beforeState = null) {
 		$prefix = $this->states;
 		$suffix = array();
-		
+
 		if ($beforeState) {
 			$pos = array_search($beforeState, $this->states);
 			if ($pos !== false) {
@@ -190,10 +190,10 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 				$suffix = array_slice($this->states, $pos);
 			}
 		}
-		
+
 		$this->states = array_merge($prefix, array($newState), $suffix);
 	}
-	
+
 	/* ============================= IEVENT ===============================*/
 
 
@@ -218,7 +218,7 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 	 *		event
 	 *
 	 * @return boolean
-	 *		false if the event was handled by a method, or true if no event 
+	 *		false if the event was handled by a method, or true if no event
 	 *		handler was found.
 	 */
 	public function fireEvent($action, $control, $params = array()) {
@@ -228,21 +228,21 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 				return false;
 			}
 		}
-		
+
 		if ($this instanceof IContained && $this->hasContainer() && $this->getContainer() instanceof IEvent) {
 			return $this->getContainer()->fireEvent($action, $control, $params);
 		}
-		
+
 //		throw new Exception('unhandled action "' . $action . '" from ' . get_class($control) . '::' . $control->getId());
 
 		return true;
 	}
-	
+
 	/* ============================= IBINDABLE ============================*/
-	
+
 	private	$boundObject;
 	private	$boundProperty;
-	
+
 	public function setBoundObject($object) {
 		if (is_null($object)) {
 			unset($this->boundObject);
@@ -250,7 +250,7 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 			$this->boundObject = $object;
 		}
 	}
-	
+
 	public function getBoundObject() {
 		if (isset($this->boundObject)) {
 			return $this->boundObject;
@@ -259,23 +259,23 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 		if ($this instanceof IContained && $this->hasContainer() && $this->getContainer() instanceof IBindable) {
 			return $this->getContainer()->getBoundObject();
 		}
-		
+
 		return null;
 	}
-	
+
 	public function hasBoundObject() {
 		return ! is_null($this->getBoundObject());
 	}
-	
+
 	public function hasOwnBoundObject() {
 		return ! is_null($this->boundObject);
 	}
-	
+
 	public function bind() {
-	
+
 		// implementation required in inherited classes
 	}
-	
+
 	public function setBoundProperty($property) {
 		if (!empty($property)) {
 			$this->boundProperty = $property;
@@ -283,39 +283,39 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 			unset($this->boundProperty);
 		}
 	}
-	
+
 	public function getBoundProperty() {
 		return $this->boundProperty;
 	}
-	
+
 	public function hasBoundProperty() {
 		return isset($this->boundProperty);
-	}	
-	
+	}
+
 	public static function resolveBoundValue($object, $property) {
 
 		$propertySet = explode('|', $property);
 		$baseObject = $object;
-		
+
 		foreach ($propertySet as $property) {
-				
+
 			$object = $baseObject;
 
 			preg_match_all('/->(?P<object>\w+)|\[(?P<array>\w+)\]|(?P<property>\w+)/i', $property, $matches, PREG_SET_ORDER);
 
 			foreach ($matches as $match) {
 				if (!empty($match['object'])) {
-	
+
 					$member = $match['object'];
 					$object = $object->$member;
-	
+
 				} else if (!empty($match['array'])) {
 
 					$member = $match['array'];
 					$object = $object[$member];
-	
+
 				} else if (!empty($match['property'])) {
-	
+
 					$member = $match['property'];
 					if (is_array($object)) {
 						$object = $object[$member];
@@ -328,131 +328,131 @@ class TControl implements IBindable, IContained, IControlState, IEvent, IIdentit
 			if (! is_null($object)) {
 				break;
 			}
-			
+
 		}
 
 		return $object;
 	}
-	
+
 	/* ============================ AUTHENTICATION ==========================*/
-	
+
 	public	$authManager;
 	private	$authGroups = array();
 	private	$authRoles = array();
 	private	$authPerms = array();
 	private	$authGuest;
-	
+
 	private function setAuthItems($type, $items) {
 		if (is_string($items)) {
 			$items = explode(' ', $items);
 		}
 		$this->$type = array_merge($this->$type, (array) $items);
 	}
-	
+
 	public function setAuthGroups($groups) {
 		$this->setAuthItems('authGroups', $groups);
 	}
-	
+
 	public function getAuthGroups() {
 		return $this->authGroups;
 	}
-	
+
 	public function setAuthRoles($roles) {
 		$this->setAuthItems('authRoles', $roles);
 	}
-	
+
 	public function getAuthRoles() {
 		return $this->authRoles;
 	}
-	
+
 	public function setAuthPerms($perms) {
 		$this->setAuthItems('authPerms', $perms);
 	}
-	
+
 	public function getAuthPerms() {
 		return $this->authPerms;
 	}
-	
+
 	public function setAuthGuest($bool) {
 		if (!is_null($bool)) {
 			$this->authGuest = zing::evaluateAsBoolean($bool);
 		}
 	}
-	
+
 	public function getAuthGuest() {
 		return $this->authGuest;
 	}
-	
+
 	public function hasPermission() {
 		return $this->authManager->checkCredentials($this->authGroups, $this->authRoles, $this->authPerms, $this->authGuest);
 	}
-	
+
 	public function cloneAuth($srcControl) {
 		$this->setAuthGroups($srcControl->getAuthGroups());
 		$this->setAuthRoles($srcControl->getAuthRoles());
 		$this->setAuthPerms($srcControl->getAuthPerms());
 		$this->setAuthGuest($srcControl->getAuthGuest());
 	}
-	
+
 	/* ============================= IVISIBILITY ============================*/
-	
+
 	private $visible = true;
-	
+
 	public function setVisible($value) {
 		$this->visible = $value;
 	}
-	
+
 	public function getVisible() {
 		return $this->visible;
 	}
-	
+
 	public function isVisible() {
 		return $this->getVisible();
 	}
-	
+
 	/* ============================= DEFAULT EVENTS ============================*/
 
 	private $onLoadEvent;
-	
+
 	public function setOnLoad($action) {
 		$this->onLoadEvent = $action;
 	}
-	
+
 	public function getOnLoad() {
 		return $this->onLoadEvent;
 	}
-	
+
 	public function hasOnLoad() {
 		return isset($this->onLoadEvent);
 	}
-	
+
 	private $onPreRenderEvent;
-	
+
 	public function setOnPreRender($action) {
 		$this->onPreRenderEvent = $action;
 	}
-	
+
 	public function getOnPreRender() {
 		return $this->onPreRenderEvent;
 	}
-	
+
 	public function hasOnPreRender() {
 		return isset($this->onPreRenderEvent);
 	}
 	private $onRenderEvent;
-	
+
 	public function setOnRender($action) {
 		$this->onRenderEvent = $action;
 	}
-	
+
 	public function getOnRender() {
-		return $this->onRenderEvent;	
+		return $this->onRenderEvent;
 	}
-	
+
 	public function hasOnRender() {
 		return isset($this->onRenderEvent);
 	}
-	
+
 }
 
 ?>

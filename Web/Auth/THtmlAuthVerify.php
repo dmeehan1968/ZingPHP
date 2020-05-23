@@ -5,11 +5,11 @@ class THtmlAuthVerify extends TModule {
 	public function load() {
 
 		$this->authManager->logout();	// log out any existing session before berifiyng
-		
+
 		$authuser = AuthUser::findOneByCredentials($this->session->parameters->pdo,
 											   $this->session->app->request->username,
 											   $this->session->app->request->password);
-		
+
 		if ($authuser) {
 			$this->setAuthUser($authuser);
 		} else {
@@ -17,58 +17,58 @@ class THtmlAuthVerify extends TModule {
 			$this->divInvalidVerificationCode->setVisible(true);
 		}
 	}
-	
+
 	public $useFormsCSS = true;
-	
+
 	public function setUseFormsCSS($use) {
 		$this->useFormsCSS = zing::evaluateAsBoolean($use);
 	}
-	
+
 	public function getUseFormsCSS() {
 		return $this->useFormsCSS;
 	}
-	
+
 	private $authUser;
-	
+
 	public function setAuthUser($authuser) {
 		$this->authUser = $authuser;
 		$this->setBoundObject($authuser);
 	}
-	
+
 	public function getAuthUser() {
 		return $this->authUser;
 	}
-	
+
 	public function hasAuthUser() {
 		return isset($this->authUser);
 	}
-	
+
 	private $autoLogin = true;
-	
+
 	public function setAutoLogin($auto) {
 		$this->autoLogin = $auto;
 	}
-	
+
 	public function getAutoLogin() {
 		return $this->autoLogin;
 	}
-	
+
 	public function preRender() {
 		$this->cssForms->setVisible($this->getUseFormsCSS());
 		parent::preRender();
 	}
-	
+
 	public function setUsername($username) {
 		$this->username->setValue($username);
 	}
-	
+
 	public function render() {
 		if ($this->username->getValue() == '' && $this->hasAuthUser()) {
 			$this->username->setValue($this->getAuthUser()->username);
 		}
 		parent::render();
 	}
-	
+
 	public function onVerify($control, $params) {
 
 		if ($this->hasAuthUser()) {
@@ -84,8 +84,8 @@ class THtmlAuthVerify extends TModule {
 			} else {
 				$authuser = $this->getAuthUser();
 				$authuser->verifyUser($password, $this->session->app->server->remote_addr);
-				
-				if ($this->getAutoLogin()) {			
+
+				if ($this->getAutoLogin()) {
 					if ($rc = $this->authManager->authenticate($this->session->parameters->pdo, $this->session->app->request->username, $password)) {
 						$this->divNotify->setNotification(false, 'Verification succeeded, but could not authenticate.  ' . $this->authManager->getReason($rc));
 						return;
@@ -96,17 +96,17 @@ class THtmlAuthVerify extends TModule {
 			}
 		}
 	}
-	
+
 	private $homepageUrl = '/';
-	
+
 	public function setHomepageUrl($url) {
 		$this->homepageUrl = $url;
 	}
-	
+
 	public function getHomepageUrl() {
 		return $this->homepageUrl;
 	}
-	
+
 	public function setHomepageAddress($control, $params) {
 		$control->setHref($this->getHomepageUrl());
 	}

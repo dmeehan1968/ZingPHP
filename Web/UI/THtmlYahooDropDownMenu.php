@@ -3,19 +3,19 @@
 class THtmlYahooDropDownMenu extends TCompositeControl {
 
 	private $elementId;
-	
+
 	public function setElementId($id) {
 		$this->elementId = $id;
 	}
-	
+
 	public function getElementId() {
 		return $this->elementId;
 	}
-	
+
 	public function hasElementId() {
 		return isset($this->elementId);
 	}
-	
+
 	public function updateMenuItems($ul, $root = true) {
 		foreach ($ul->children as $li) {
 			if ($li instanceof THtmlControl && $li->getTag() == 'li') {
@@ -35,7 +35,7 @@ class THtmlYahooDropDownMenu extends TCompositeControl {
 			$div->children[] = $menu;
 			$parent = $div;
 		}
-		
+
 		$children = clone $parent->children;
 		$parent->children->deleteAll();
 		$bd = $parent->children[] = zing::create('THtmlDiv', array('class' => 'bd'));
@@ -46,11 +46,11 @@ class THtmlYahooDropDownMenu extends TCompositeControl {
 			}
 		}
 	}
-	
+
 	public function loadComplete() {
-		
+
 		$element = $this->getDescendantById($this->getElementId());
-		$this->insertYuiModule($element, null);		
+		$this->insertYuiModule($element, null);
 		$new[] = $this->children[] = zing::create('THtmlScript', array('src' => '/Zing/Assets/Scripts/yui/yahoo-dom-event/yahoo-dom-event.js'));
 		$new[] = $this->children[] = zing::create('THtmlScript', array('src' => '/Zing/Assets/Scripts/yui/container/container_core.js'));
 		$new[] = $this->children[] = zing::create('THtmlScript', array('src' => '/Zing/Assets/Scripts/yui/menu/menu.js'));
@@ -65,10 +65,10 @@ class THtmlYahooDropDownMenu extends TCompositeControl {
 							lazyload: true } );
 				oMenu.render();
 				oMenu.show();
-		
+
 		});
 	'));
-		
+
 		foreach ($new as $child) {
 			$child->doStatesUntil('Load');
 		}

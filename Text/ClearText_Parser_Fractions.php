@@ -10,7 +10,7 @@
  */
 
 class ClearText_Parser_Fractions extends TextParser_Parser {
-	
+
 	public $regexp = '/
 						(?<!\\\\|\/)			# not preceeded by escape or slash
 						(?<=\W|^)				# must be preceeded by non-word or start
@@ -18,7 +18,7 @@ class ClearText_Parser_Fractions extends TextParser_Parser {
 						(?=\W|$)				# must be followed by non-word or end
 						(?!\/)					# not followed by slash (its a date)
 					/mx';
-	
+
 	public function onMatch($match) {
 		return $this->addToken(TextParser::SPAN, array('numerator' => $match['numerator'], 'denominator' => $match['denominator']));
 	}

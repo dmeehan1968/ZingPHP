@@ -1,7 +1,7 @@
 <?php
 
 class TYuiMenuBarItem extends TYuiMenuItem {
-	
+
 	public function getYuiMenuItemClass() {
 		return 'yuimenubaritem';
 	}
@@ -9,9 +9,9 @@ class TYuiMenuBarItem extends TYuiMenuItem {
 	public function getYuiMenuItemLabelClass() {
 		return 'yuimenubaritemlabel';
 	}
-	
 
-	
+
+
 }
 
 ?>

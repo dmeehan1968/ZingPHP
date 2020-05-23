@@ -1,10 +1,10 @@
 <?php
 
 class ClearText_Rules extends TextParser_Rules {
-	
+
 	protected $rules = array(
 		'Normalise'	=> 		10,
-		
+
 		'LinkReferences' =>	20,
 		'Objects' =>		25,
 
@@ -25,9 +25,9 @@ class ClearText_Rules extends TextParser_Rules {
 		'Fractions'	=> 		100,
 		'LineBreak'	=> 		100,
 		'Weblink'	=> 		100,
-		
+
 		);
-	
+
 	public function getClass() {
 		return 'ClearText';
 	}

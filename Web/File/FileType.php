@@ -10,14 +10,14 @@ class FileType extends TObjectPersistence {
 	const MAIN_WEB = 3;
 	const BANNER_WEB = 4;
 	const THUMBNAIL_PRINT = 5;
-	
+
 	public static function findAll(ZingPDO $pdo) {
 		$sql = '	select * from filetypes order by id';
 		$s = $pdo->prepare($sql);
 		if (!$s->execute()) {
 			throw new TObjectPdoException($s);
 		}
-		
+
 		return new TObjectCollection($pdo, $s, 'FileType');
 	}
 

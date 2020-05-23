@@ -6,7 +6,7 @@ class AdminLayout extends TCachedLayout {
 		parent::preInit();
 		$this->setCacheTimeout(-1);
 	}
-	
+
 	public function render() {
 		header('Content-Type: text/html; charset=ISO-8859-1');
 		parent::render();
@@ -17,7 +17,7 @@ class AdminLayout extends TCachedLayout {
 		$control->children->deleteAll();
 		$control->setInnerText($auth->getUsername());
 	}
-	
+
 	public function setFirstAndLast($control, $params) {
 		$last = null;
 		foreach ($control->children as $child) {

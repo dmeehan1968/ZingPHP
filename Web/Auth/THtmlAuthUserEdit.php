@@ -36,14 +36,14 @@ class THtmlAuthUserEdit extends TModule {
 		$this->Permissions->setAvailableBoundProperty('id|name');
 
         $this->setBoundObject($this->user);
-		
+
 		if ($this->user->isStored() == false) {
 			$this->frmAuthUserPermissions->setVisible(false);
 		}
-		
+
         parent::load();
     }
-	
+
 	public function preRender() {
 		$this->Groups->setAssignedBoundObject($this->user->groups);
 		$this->Groups->setAssignedBoundProperty('id|name');
@@ -64,20 +64,20 @@ class THtmlAuthUserEdit extends TModule {
 			}
 		}
 		parent::preRender();
-	}	
-		
-	
+	}
+
+
     public function saveUser($control, $params) {
 
         $sess = TSession::getInstance();
         $request = $sess->app->request;
         $errors = array();
         $newUser = ! $this->user->isStored();
-                        
+
         try {
-                
+
             $sess->parameters->pdo->beginTransaction();
-    
+
             $this->user->username = $request->username;
             $this->user->expires = $request->expires;
 
@@ -88,7 +88,7 @@ class THtmlAuthUserEdit extends TModule {
 			if (count($errors)) {
                 throw new Exception('There are '.count($errors).' problems with the information you have provided.  Please make the changes indicated to allow the information to be saved');
 			}
-			
+
 			if ($newUser) {
 
 				$res = $this->user->resetPassword(				// also saves
@@ -101,21 +101,21 @@ class THtmlAuthUserEdit extends TModule {
 				if (PEAR::isError($res)) {
 					throw new Exception($res->getMessage());
 				}
-				
+
 				if ($res != TAuthentication::RC_NO_ERROR) {
 					throw new Exception(TAuthentication::getReason($res));
 				}
-			
+
 			} else {
 				$this->user->update();
 			}
-			
+
 			$this->user->addGroupByName($sess->parameters['auth.default.groups']);
-            
+
             $sess->parameters->pdo->commit();
-            
+
             if ($newUser) {
-                $sess->app->redirect('Zing/Web/Auth/THtmlAuthUserEdit', array('user_id' => $this->user->id), array('saved' => true));	
+                $sess->app->redirect('Zing/Web/Auth/THtmlAuthUserEdit', array('user_id' => $this->user->id), array('saved' => true));
             }
 
             $this->divNotify->setNotification(true, 'Changes to the User have been saved');
@@ -130,12 +130,12 @@ class THtmlAuthUserEdit extends TModule {
             }
             $this->divNotify->setNotification(false, $e->getMessage());
         }
-        
-        $this->divNotify->setVisible(true);	
+
+        $this->divNotify->setVisible(true);
     }
 
 	public function resetPassword($control, $params) {
-		$res = $this->user->resetPassword(	
+		$res = $this->user->resetPassword(
 								   array(
 										 'protocol' => $this->session->parameters['site.protocol'],
 										 'host' => $this->session->parameters['site.host'],
@@ -148,51 +148,51 @@ class THtmlAuthUserEdit extends TModule {
 			$this->divNotify->setNotification(false, 'There was an error resetting the password. ' . TAuthentication::getReason($res));
 		} else {
 			$this->divNotify->setNotification(true, 'The password has been reset and an account verification message sent.');
-		}			
+		}
 	}
-	
+
 	public function onAddGroups($control, $params) {
 		if (count($params)) {
 			$this->user->addGroupById($params);
 		}
 	}
-	
+
 	public function onRemoveGroups($control, $params) {
 		if (count($params)) {
 			$this->user->removeGroupById($params);
 		}
 	}
-	
+
 	public function onAddRoles($control, $params) {
 		if (count($params)) {
 			$this->user->addRoleById($params);
 		}
 	}
-	
+
 	public function onRemoveRoles($control, $params) {
 		if (count($params)) {
 			$this->user->removeRoleById($params);
 		}
 	}
-	
+
 	public function onAddPermissions($control, $params) {
 		if (count($params)) {
 			$this->user->addPermissionById($params);
 		}
 	}
-	
+
 	public function onRemovePermissions($control, $params) {
 		if (count($params)) {
 			$this->user->removePermissionById($params);
 		}
 	}
-	
+
 	public function insertExpandedGroups($control, $params) {
 		foreach ($this->user->expandedGroups as $index => $group) {
 			$control->setInnerText($control->getInnerText() . ($index ? ', ' : '') . $group);
 		}
 	}
-	
+
 	public function insertExpandedRoles($control, $params) {
 		foreach ($this->user->expandedRoles as $index => $role) {
 			$control->setInnerText($control->getInnerText() . ($index ? ', ' : '') . $role);

@@ -3,19 +3,19 @@
 class THtmlTableColumn extends THtmlControl {
 
 	private	$title;
-	
+
 	public function setTitle($title) {
 		$this->title = $title;
 	}
-	
+
 	public function getTitle() {
 		return $this->title;
 	}
-	
+
 	public function hasTitle() {
 		return isset($this->title);
 	}
-	
+
 	public function createHeadTableData() {
 		$params = array();
 		if ($this->hasTitle()) {
@@ -28,11 +28,11 @@ class THtmlTableColumn extends THtmlControl {
 			$params['style'] = $this->getStyle();
 		}
 		$td = zing::create('THtmlTableData', $params);
-		
+
 		$td->cloneAuth($this);
 		return $td;
 	}
-	
+
 	public function createBodyTableData() {
 		$params = array();
 		if ($this->hasClass()) {
@@ -53,15 +53,15 @@ class THtmlTableColumn extends THtmlControl {
 				$td->children[$id] = $child;
 			}
 		}
-		
+
 		$td->cloneAuth($this);
 		return $td;
 	}
-	
+
 	public function getHeadProperties() {
 		return array('hasTitle', 'hasClass', 'hasStyle');
 	}
-	
+
 	public function getBodyProperties() {
 		return array('hasClass', 'hasStyle', 'hasBoundProperty', 'hasOnRender');
 	}

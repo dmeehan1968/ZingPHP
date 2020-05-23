@@ -1,7 +1,7 @@
 <?php
 
 class ClearText_Parser_Definition extends TextParser_Parser {
-	
+
 	public function __construct(TextParser $parser) {
 		parent::__construct($parser);
 		$this->regexp = '/
@@ -16,7 +16,7 @@ class ClearText_Parser_Definition extends TextParser_Parser {
 						(?=\n\n\S|\n*\z)
 					/smx';
 	}
-	
+
 	public function onMatch($match) {
 		return preg_replace_callback('/
 						(?<=\A|\n)
@@ -29,7 +29,7 @@ class ClearText_Parser_Definition extends TextParser_Parser {
 						)
 						/mx', array($this, 'onItemMatch'), $match[0]);
 	}
-	
+
 	public function onItemMatch($match) {
 		$text .= $this->addToken(TextParser::BLOCK, array('type' => 'dl', 'id' => $this->parser->getId($match[1])));
 		$text .= $this->addToken(TextParser::BLOCK, array('type' => 'dt'));
@@ -51,7 +51,7 @@ class ClearText_Parser_Definition extends TextParser_Parser {
 		if (preg_match_all('/^..*(?:\n\n|\n*\z)/m', $dd, $m) > 1) {
 			$dd = "\n\n" . $dd . "\n\n";
 		}
-		
+
 		$text .= $dd;
 		$text .= $this->addToken(TextParser::BLOCK, array('type' => '/dd'));
 		$text .= $this->addToken(TextParser::BLOCK, array('type' => '/dl'));

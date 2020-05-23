@@ -13,13 +13,13 @@ class THtmlSelect extends THtmlControl {
 			$this->setName($this->getId());
 		}
 	}
-	
+
 	public function render() {
 
 		if ($this->getMultiple() && strstr($this->getName(), '[]') === false) {
 			$this->setName($this->getName() . '[]');
 		}
-		
+
 		if ($this->hasBoundObject() && $this->hasBoundProperty()) {
 			list($value, $text) = explode('|', $this->getBoundProperty());
 			if (empty($value) || empty($text)) {
@@ -30,7 +30,7 @@ class THtmlSelect extends THtmlControl {
 				$child->setSelected(null);
 				if ($this->hasSelected()) {
 					$select = $this->getSelected();
-					if ((method_exists($select, 'isEqual') && $select->isEqual($object)) 
+					if ((method_exists($select, 'isEqual') && $select->isEqual($object))
 							|| $select === $object) {
 						$child->setSelected();
 					}
@@ -42,15 +42,15 @@ class THtmlSelect extends THtmlControl {
 	}
 
 	private $selected;
-	
+
 	public function setSelected($selected) {
 		$this->selected = $selected;
 	}
-	
+
 	public function getSelected() {
 		return $this->selected;
 	}
-	
+
 	public function hasSelected() {
 		return isset($this->selected);
 	}
@@ -58,7 +58,7 @@ class THtmlSelect extends THtmlControl {
 	public function hasInnerContent() {
 		return true;
 	}
-	
+
 	public function setMultiple($multi) {
 		$multi = zing::evaluateAsBoolean($multi);
 		if ($multi) {
@@ -67,27 +67,27 @@ class THtmlSelect extends THtmlControl {
 			unset($this->attributes['multiple']);
 		}
 	}
-	
+
 	public function hasMultiple() {
 		return isset($this->attributes['multiple']);
 	}
-	
+
 	public function getMultiple() {
 		return $this->hasMultiple();
 	}
-	
+
 	public function setSize($size) {
 		$this->attributes['size'] = $size;
 	}
-	
+
 	public function getSize() {
 		return $this->attributes['size'];
 	}
-	
+
 	public function hasSize() {
 		return isset($this->attributes['size']);
 	}
-	
+
 	public function setDisabled($disabled) {
 		if ($disabled) {
 			$this->attributes['disabled'] = $disabled;
@@ -95,17 +95,17 @@ class THtmlSelect extends THtmlControl {
 			unset($this->attributes['disabled']);
 		}
 	}
-	
+
 	public function getDisabled() {
 		return $this->attributes['disabled'];
 	}
-	
+
 	public function hasDisabled() {
 		return isset($this->attributes['disabled']);
 	}
-	
+
 	public function post() {
-	
+
 		parent::post();
 
 		$sess = TSession::getInstance();

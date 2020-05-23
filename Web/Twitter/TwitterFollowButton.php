@@ -63,7 +63,7 @@ class TwitterFollowButton extends THtmlDiv {
 	}
 
 	public function render() {
-		
+
 		if ($this->hasUser()) {
 
 			$this->link->setInnerText('Follow' . ($this->getShowUser() ? ' @' . $this->getUser() : ''));

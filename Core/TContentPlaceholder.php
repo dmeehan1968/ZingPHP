@@ -3,11 +3,11 @@
 class TContentPlaceholder extends TControl implements IContainer {
 
 	private	$content;
-	
+
 	public function setContent($content) {
 		$this->content = $content;
 	}
-	
+
 	public function getContent() {
 		return $this->content;
 	}
@@ -20,20 +20,20 @@ class TContentPlaceholder extends TControl implements IContainer {
 			}
 		}
 	}
-		
+
 	public function getChildren() {
 		return array($this->getContent());
 	}
-	
+
 	public function getDescendantById($id) {
 		$content = $this->getContent();
 		if ($content->getId() == $id) {
 			return $content;
 		}
-		
+
 		return $content->getDescendantById($id);
 	}
-	
+
 	public function getDescendantsByClass($class) {
 		$content = $this->getContent();
 		$array = array();
@@ -46,7 +46,7 @@ class TContentPlaceholder extends TControl implements IContainer {
 
 	public function preInit() {
 		$this->setContent($this->getLayoutContent());
-		
+
 		parent::preInit();
 		$this->getContent()->preInit();
 	}
@@ -65,7 +65,7 @@ class TContentPlaceholder extends TControl implements IContainer {
 		parent::auth();
 		$this->getContent()->auth();
 	}
-	
+
 	public function preLoad() {
 		parent::preLoad();
 		$this->getContent()->preLoad();

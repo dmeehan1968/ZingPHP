@@ -1,7 +1,7 @@
 <?php
 
 class ClearText_Parser_List extends TextParser_Parser {
-	
+
 	public function __construct(TextParser $parser) {
 		parent::__construct($parser);
 		$this->regexp = '/
@@ -17,7 +17,7 @@ class ClearText_Parser_List extends TextParser_Parser {
 						(?=\n\n(?![#* ]|\d+\.|[a-z]\.)|\n*\z)
 					/smx';
 	}
-	
+
 	public function onMatch($match) {
 		return
 			$this->addToken(TextParser::BLOCK, array('type' => 'listStart'))
@@ -35,17 +35,17 @@ class ClearText_Parser_List extends TextParser_Parser {
 						)
 						/mx', array($this, 'onItemMatch'), $match[0])
 			.
-			$this->addToken(TextParser::BLOCK, array('type' => 'listEnd'));			
+			$this->addToken(TextParser::BLOCK, array('type' => 'listEnd'));
 	}
-	
+
 	public function onItemMatch($match) {
-		
+
 		$style = null;
 		switch ($match[2][0]) {
 			case '*' :
 				$listType = 'ul';
 				break;
-			default:				
+			default:
 				$listType = 'ol';
 				if (ctype_alpha($match[2][0])) {
 					$style = 'lower-alpha';

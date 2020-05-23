@@ -1,6 +1,6 @@
 <?php
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
  Title : Sample Landing page for PHP Quick Profiler Class
  Author : Created by Ryan Campbell
@@ -19,25 +19,25 @@ require_once('classes/PhpQuickProfiler.php');
 //require_once('classes/MySqlDatabase.php');
 
 class PQPExample {
-	
+
 	private $profiler;
 	private $db = '';
-	
+
 	public function __construct() {
 		$this->profiler = new PhpQuickProfiler(PhpQuickProfiler::getMicroTime());
 	}
-	
+
 	public function init() {
 		$this->sampleConsoleData();
 		$this->sampleDatabaseData();
 		$this->sampleMemoryLeak();
 		$this->sampleSpeedComparison();
 	}
-	
+
 	/*-------------------------------------------
 	     EXAMPLES OF THE 4 CONSOLE FUNCTIONS
 	-------------------------------------------*/
-	
+
 	public function sampleConsoleData() {
 		try {
 			Console::log('Begin logging data');
@@ -53,47 +53,47 @@ class PQPExample {
 			Console::logError($e, 'Sample error logging.');
 		}
 	}
-	
+
 	/*-------------------------------------
 	     DATABASE OBJECT TO LOG QUERIES
 	--------------------------------------*/
-	
+
 	public function sampleDatabaseData() {
 		/*$this->db = new MySqlDatabase(
-			'your DB host', 
+			'your DB host',
 			'your DB user',
 			'your DB password');
 		$this->db->connect(true);
 		$this->db->changeDatabase('your db name');
-		
+
 		$sql = 'SELECT PostId FROM Posts WHERE PostId > 2';
 		$rs = $this->db->query($sql);
-		
+
 		$sql = 'SELECT COUNT(PostId) FROM Posts';
 		$rs = $this->db->query($sql);
-		
+
 		$sql = 'SELECT COUNT(PostId) FROM Posts WHERE PostId != 1';
 		$rs = $this->db->query($sql);*/
 	}
-	
+
 	/*-----------------------------------
 	     EXAMPLE MEMORY LEAK DETECTED
 	------------------------------------*/
-	
+
 	public function sampleMemoryLeak() {
 		$ret = '';
-		$longString = 'This is a really long string that when appended with the . symbol 
+		$longString = 'This is a really long string that when appended with the . symbol
 					  will cause memory to be duplicated in order to create the new string.';
 		for($i = 0; $i < 10; $i++) {
 			$ret = $ret . $longString;
 			Console::logMemory($ret, 'Watch memory leak -- iteration '.$i);
 		}
 	}
-	
+
 	/*-----------------------------------
 	     POINT IN TIME SPEED MARKS
 	------------------------------------*/
-	
+
 	public function sampleSpeedComparison() {
 		Console::logSpeed('Time taken to get to line '.__LINE__);
 		Console::logSpeed('Time taken to get to line '.__LINE__);
@@ -102,11 +102,11 @@ class PQPExample {
 		Console::logSpeed('Time taken to get to line '.__LINE__);
 		Console::logSpeed('Time taken to get to line '.__LINE__);
 	}
-	
+
 	public function __destruct() {
 		$this->profiler->display($this->db);
 	}
-	
+
 }
 
 $pqp = new PQPExample();
@@ -170,7 +170,7 @@ strong a{
 	<li>Ensure page execution time is acceptable. [ <a href="#" onclick="changeTab('speed'); return false;">Demo</a> ]</li>
 	<li>Prevent files from getting out of control. [ <a href="#" onclick="changeTab('files'); return false;">Demo</a> ]</li>
 	</ul>
-	
+
 	<strong>Return to <a href="http://particletree.com/features/php-quick-profiler/">Particletree</a>.</strong>
 </div>
 

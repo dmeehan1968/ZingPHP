@@ -15,31 +15,31 @@
 
 class MySqlDatabase {
 
-	private $host;			
-	private $user;		
-	private $password;	
-	private $database;	
+	private $host;
+	private $user;
+	private $password;
+	private $database;
 	public $queryCount = 0;
 	public $queries = array();
 	public $conn;
-	
+
 	/*------------------------------------
 	          CONFIG CONNECTION
 	------------------------------------*/
-	
+
 	function __construct($host, $user, $password) {
 		$this->host = $host;
 		$this->user = $user;
 		$this->password = $password;
 	}
-	
+
 	function connect($new = false) {
 		$this->conn = mysql_connect($this->host, $this->user, $this->password, $new);
 		if(!$this->conn) {
 			throw new Exception('We\'re working on a few connection issues.');
 		}
 	}
-	
+
 	function changeDatabase($database) {
 		$this->database = $database;
 		if($this->conn) {
@@ -48,16 +48,16 @@ class MySqlDatabase {
 			}
 		}
 	}
-	
+
 	function lazyLoadConnection() {
 		$this->connect(true);
 		if($this->database) $this->changeDatabase($this->database);
 	}
-	
+
 	/*-----------------------------------
 	   				QUERY
 	------------------------------------*/
-	
+
 	function query($sql) {
 		if(!$this->conn) $this->lazyLoadConnection();
 		$start = $this->getTime();
@@ -69,11 +69,11 @@ class MySqlDatabase {
 		}
 		return $rs;
 	}
-	
+
 	/*-----------------------------------
 	          	DEBUGGING
 	------------------------------------*/
-	
+
 	function logQuery($sql, $start) {
 		$query = array(
 				'sql' => $sql,
@@ -81,7 +81,7 @@ class MySqlDatabase {
 			);
 		array_push($this->queries, $query);
 	}
-	
+
 	function getTime() {
 		$time = microtime();
 		$time = explode(' ', $time);
@@ -89,7 +89,7 @@ class MySqlDatabase {
 		$start = $time;
 		return $start;
 	}
-	
+
 	public function getReadableTime($time) {
 		$ret = $time;
 		$formatter = 0;
@@ -105,11 +105,11 @@ class MySqlDatabase {
 		$ret = number_format($ret,3,'.','') . ' ' . $formats[$formatter];
 		return $ret;
 	}
-	
+
 	function __destruct()  {
 		@mysql_close($this->conn);
 	}
-	
+
 }
 
 ?>

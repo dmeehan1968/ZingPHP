@@ -68,7 +68,7 @@ class TwitterMentionButton extends THtmlDiv {
 	}
 
 	public function render() {
-		
+
 		if ($this->hasUser()) {
 			$this->link->setInnerText($this->getShowUser() ? 'Tweet about @' . $this->getUser() : 'Tweet this');
 			$this->link->setHref('https://twitter.com/intent/tweet?screen_name=' . $this->getUser() . ($this->hasText() ? '&text=' . urlencode($this->getText()) : ''));

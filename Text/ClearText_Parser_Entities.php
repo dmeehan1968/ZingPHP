@@ -13,7 +13,7 @@ class ClearText_Parser_Entities extends TextParser_Parser {
 						|						# or
 						\\\\(.)					# escaped
 					/x';
-					
+
 	public function onMatch($match) {
 		if (!empty($match[1])) {
 			$entity = htmlentities($match[1], ENT_QUOTES);

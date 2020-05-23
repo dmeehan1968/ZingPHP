@@ -1,7 +1,7 @@
 <?php
 
 class ClearText_Parser_Objects extends TextParser_Parser {
-	
+
 	public $regexp = '/
 						(?!\\\\)			# not preceeded by escape
 						(?<=\s|^)\{			# left brace
@@ -13,7 +13,7 @@ class ClearText_Parser_Objects extends TextParser_Parser {
 						)
 						\}(?=\s|$)			# right brace
 					/smx';
-					
+
 	public function onMatch($match) {
 		preg_match_all('/(\w+)="(\S*)"/m', html_entity_decode($match[2]), $m);
 		$class = $match[1];
@@ -27,5 +27,5 @@ class ClearText_Parser_Objects extends TextParser_Parser {
 	}
 
 }
-	
+
 ?>

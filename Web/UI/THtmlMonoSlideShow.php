@@ -3,9 +3,9 @@
 class THtmlMonoSlideShow extends THtmlDiv {
 
 	public function init() {
-		
+
 		$this->addClass('monoslideshow');
-		
+
 		if (! $this->hasId()) {
 			$this->setId('monoslideshow-' . zing::createControlId());
 		}
@@ -25,51 +25,51 @@ class THtmlMonoSlideShow extends THtmlDiv {
 	}
 
 	private $height = 320;
-	
+
 	public function setHeight($height) {
 		$this->height = $height;
 	}
-	
+
 	public function getHeight() {
 		return $this->height;
 	}
-	
+
 	private $width = 240;
-	
+
 	public function setWidth($width) {
 		$this->width = $width;
 	}
-	
+
 	public function getWidth() {
 		return $this->width;
 	}
-	
+
 	private $image;
-	
+
 	public function setImage($image) {
 		$this->image = $image;
 	}
-	
+
 	public function getImage() {
 		return $this->image;
 	}
-	
+
 	public function hasImage() {
 		return isset($this->image);
 	}
-	
+
 	private $xml;
-	
+
 	public function setXml($xml) {
 		$this->xml = $xml;
 	}
-	
+
 	public function getXml() {
 		return $this->xml;
 	}
-	
+
 	public function render() {
-		
+
 		$xml = $this->onBindAttribute('xml', $this->getXml());
 		$script = "\n" . 'swfobject.embedSWF("/Zing/Assets/Scripts/MonoSlideShow/monoslideshow.swf"';
 		$script .= ',"' . $this->containerDiv->getId() . '"';
@@ -80,7 +80,7 @@ class THtmlMonoSlideShow extends THtmlDiv {
 		$script .= ',{ dataFile: "'. $xml . '", showLogo: false }';
 		$script .= ');';
 		$this->inlineScript->setInnerText($script);
-		
+
 		if ($this->hasImage()) {
 			$image = $this->onBindAttribute('image', $this->getImage());
 //DME 20/02/2013 - Next line is a slight bodge as resolveBoundValue isn't properly returning array elements
@@ -93,7 +93,7 @@ class THtmlMonoSlideShow extends THtmlDiv {
 			//$this->imageControl->setHeight($this->getHeight());
 			$this->imageControl->setWidth($this->getWidth());
 		}
-		
+
 		parent::render();
 	}
 

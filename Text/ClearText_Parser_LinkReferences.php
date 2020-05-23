@@ -1,7 +1,7 @@
 <?php
 
 class ClearText_Parser_LinkReferences extends TextParser_Parser {
-	
+
 	public $regexp = '/
 						(?!\\\\)			# not preceeded by escape
 						^\[					# square bracket in left column
@@ -10,7 +10,7 @@ class ClearText_Parser_LinkReferences extends TextParser_Parser {
 						((?:(?<=^)[ ]{4,}\w+:.+?)+)	# attribute block
 						(?=\n\n|\n*\z)		# until para break or end
 					/smx';
-					
+
 	public function onMatch($match) {
 		preg_match_all('/(?<=^)[ ]{4,}(?P<attr>\w+):\s*(?P<value>.+?)\s*$/m', $match[2], $m);
 
@@ -42,5 +42,5 @@ class ClearText_Parser_LinkReferences extends TextParser_Parser {
 		return parent::parse($text, $notused);
 	}
 }
-	
+
 ?>

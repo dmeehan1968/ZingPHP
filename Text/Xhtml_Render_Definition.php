@@ -1,12 +1,12 @@
 <?php
 
 class Xhtml_Render_Definition extends TextParser_Renderer {
-	
+
 	public function render($params) {
 		extract($params);
-		
+
 		$text = '';
-		
+
 		switch ($type) {
 			case	'dl':
 				unset($params['type']);
@@ -37,7 +37,7 @@ class Xhtml_Render_Definition extends TextParser_Renderer {
 				$text .= "\n" . str_repeat("\t", $this->parser->unindent()) . '<' . $type . '>';
 				break;
 		}
-		
+
 		return $text;
 	}
 }

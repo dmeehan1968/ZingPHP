@@ -5,12 +5,12 @@
 class MultiMapGeocoder {
 
 	public function postcode($postcode) {
-	
+
 		$postcode = preg_replace('/[^\w\d]/','',$postcode);
 
 //		$url = 'http://mmw.multimap.com/API/geocode/1.2/public_api?output=xml&countryCode=GB&qs=' . $postcode;
 		$url = 'http://maps.googleapis.com/maps/api/geocode/xml?address=' . $postcode . '&region=uk&sensor=false';
-		
+
 		if (ini_get('allow_url_fopen')) {
 			$file_contents = @file_get_contents($url);
 		} else {
@@ -23,14 +23,14 @@ class MultiMapGeocoder {
 			curl_close($ch);
 		}
 
-	
+
 		if (!empty($file_contents)) {
 			$xml = new SimpleXMLElement($file_contents);
 			if ($xml->status == 'OK') {
 				return array($xml->result->geometry->location->lat, $xml->result->geometry->location->lng);
 			}
 		}
-		
+
 		return array();
 	}
 

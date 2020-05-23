@@ -1,7 +1,7 @@
 <?php
 
 class ClearText_Parser_Preformatted extends TextParser_Parser {
-	
+
 	public function __construct(TextParser $parser) {
 		parent::__construct($parser);
 		$this->regexp = '/
@@ -13,7 +13,7 @@ class ClearText_Parser_Preformatted extends TextParser_Parser {
 						(?=\n\n\S|\n*\z)		# followed by 2 newlines (next para not indented) or end
 					/smx';
 	}
-				
+
 	public function onMatch($match) {
 		$start = $this->addToken(TextParser::BLOCK, array('type' => 'start'));
 		$end = $this->addToken(TextParser::BLOCK, array('type' => 'end'));
@@ -26,7 +26,7 @@ class ClearText_Parser_Preformatted extends TextParser_Parser {
 		 */
 		$text = preg_replace('/^[ ]{' . $this->parser->getTabWidth() . '}/m',
 						$this->addToken(TextParser::BLOCK, array('type' => 'bol')), $match[1]);
-		
+
 		/*
 		 * Escape ClearText markup (i.e. markup not supported in preformatted)
 		 */

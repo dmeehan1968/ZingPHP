@@ -1,11 +1,11 @@
 <?php
 
 class Xhtml_Render_Heading extends TextParser_Renderer {
-	
+
 	public function render($params) {
 		extract($params);
 		static $nesting = array();
-		
+
 		$text = '';
 
 		switch ($type) {
@@ -32,7 +32,7 @@ class Xhtml_Render_Heading extends TextParser_Renderer {
 				}
 				break;
 		}
-		
+
 		return $text;
 	}
 }

@@ -11,22 +11,22 @@ abstract class TModuleMapBase {
 	 * The base path to the module (excluding extension)
 	 */
 	private $modulePath;
-	
+
 	/**
 	 * The path to the php script
 	 */
 	private $moduleScript;
-	
+
 	/**
 	 * The path to the module template
 	 */
 	private $moduleTemplate;
-	
+
 	/**
 	 * The class defined by the module
 	 */
 	private $moduleClass;
-		
+
 	/**
 	 * @param $modulePath
 	 *				the base path to the module (exluding extension)
@@ -36,24 +36,24 @@ abstract class TModuleMapBase {
 			$sess = TSession::getInstance();
 			$modulePath = $sess->paths->base . $modulePath;
 		}
-		
+
 		$this->modulePath = $modulePath;
 		$this->moduleScript = $modulePath . '.php';
 		$this->moduleTemplate = $modulePath . '.tpl';
 		$this->moduleClass = array_pop(explode('/',$modulePath));
-		
+
 		if (!isset(zing::$aliases[$this->moduleClass])) {
 			zing::$aliases[$this->moduleClass] = $this->moduleScript;
 		}
 	}
-	
+
 	/**
 	 * return the module path
 	 */
 	public function getModulePath() {
 		return $this->modulePath;
 	}
-	
+
 	/**
 	 * return an new instance of the module
 	 */
@@ -65,7 +65,7 @@ abstract class TModuleMapBase {
 		}
 		return $module;
 	}
-				
+
 }
 
 /**
@@ -82,7 +82,7 @@ class TModuleMap extends TModuleMapBase {
 	 * The regular expression used to match the uri to this module
 	 */
 	private $regexp;
-	
+
 	/**
 	 * The URI template used to access this module
 	 *
@@ -92,12 +92,12 @@ class TModuleMap extends TModuleMapBase {
 	 * /customer/{id}
 	 *
 	 * where params = array('id' => 1) will generate
-	 * 
+	 *
 	 * /customer/1
 	 *
 	 */
 	private $uri;
-	
+
 	/**
 	 * Parameters derived from the match with the URI
 	 */
@@ -107,7 +107,7 @@ class TModuleMap extends TModuleMapBase {
 	 * Parameters used to generate matching uri's
 	 */
 	public $factory;
-			
+
 	/**
 	 * @param $modulePath
 	 *				The base path to the module (excluding the .php extension)
@@ -123,7 +123,7 @@ class TModuleMap extends TModuleMapBase {
 	 *
 	 * @param $params
 	 *				Array for name/value params to be passed in
-	 *		
+	 *
 	 * @param $factory
 	 *				The params required to generate matching uri's
 	 */
@@ -136,7 +136,7 @@ class TModuleMap extends TModuleMapBase {
 		$this->regexp = '/' . str_replace('/', '\\/', $regexp) . '/i';
 		$this->factory = $factory;
 		$this->parameters = is_array($params) ? $params : array();
-	
+
 	}
 
 	/**
@@ -146,7 +146,7 @@ class TModuleMap extends TModuleMapBase {
 	 *
 	 * @param $params
 	 *				Array of parameter values to substitute into the uri
-	 */	
+	 */
 	public function getUri($params = array()) {
 		if (preg_match_all('/(?:{(\w+)})/', $this->uri, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER) > 0) {
 			$uri = $this->uri;
@@ -156,12 +156,12 @@ class TModuleMap extends TModuleMapBase {
 				$adjust += strlen($params[$match[1][0]]) - strlen($match[0][0]);
 			}
 			return $uri;
-			
+
 		} else {
 			return $this->uri;
-		}		
+		}
 	}
-	
+
 	/**
 	 * isMatch
 	 *
@@ -182,7 +182,7 @@ class TModuleMap extends TModuleMapBase {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * getLayout
 	 *
@@ -195,6 +195,6 @@ class TModuleMap extends TModuleMapBase {
 	public function hasFactory() {
 		return isset($this->factory);
 	}
-	
+
 }
 ?>

@@ -2,21 +2,21 @@
 
 
 class TDateTime {
-	
+
 	private $_days = 0;
 	private $_secs = 0;
 	private $_dirty = true;
 	private $_datetime;
-	
+
 	static private $_daysPerMonth = array(0,31,28,31,30,31,30,31,31,30,31,30,31);
 	static private $_daysOfWeek = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
 	static private $_monthsOfYear = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-	
+
 	public function __construct($datetime = null) {
 		if (is_null($datetime)) {
 			$datetime = time();
 		}
-		
+
 		if (is_int($datetime)) {
 			if ($datetime == -1) {
 				$datetime = '9999-12-31 23:59:59';
@@ -24,12 +24,12 @@ class TDateTime {
 				$datetime = gmdate('Y-m-d H:i:s', $datetime);
 			}
 		}
-		
+
 		if (is_array($datetime)) {
 			$this->days = $datetime[0];
 			$this->secs = $datetime[1];
 		}
-		
+
 		if (is_string($datetime)) {
 			list($date, $time) = explode(' ', $datetime);
 			list($year, $month, $day) = explode('-', $date);
@@ -38,10 +38,10 @@ class TDateTime {
 			$this->days = ($year * 365) + $this->_getDayOfYear($month, $day);
 			$this->days += $this->_getLeapDays($year, $month, $day);
 		}
-		
+
 		$this->refresh();
 	}
-	
+
 	public function __set($name, $value) {
 		$name = '_' . $name;
 		if (isset($this->$name)) {
@@ -53,7 +53,7 @@ class TDateTime {
 			throw new Exception('Property \'' . $name . '\' unknown in class ' . get_class($this));
 		}
 	}
-	
+
 	public function __get($name) {
 		$name = '_' . $name;
 		if (isset($this->$name)) {
@@ -61,7 +61,7 @@ class TDateTime {
 		}
 		return null;
 	}
-	
+
 	public $year;
 	public $month;
 	public $day;
@@ -70,7 +70,7 @@ class TDateTime {
 	public $second;
 	public $dayOfWeek;
 	public $leap;
-	
+
 	public function refresh() {
 		if ($this->_dirty) {
 			$this->_datetime = sprintf('%04d-%02d-%02d %02d:%02d:%02d',
@@ -87,11 +87,11 @@ class TDateTime {
 			$this->_dirty = false;
 		}
 	}
-	
+
 	private function _getYear() {
 		return (int) ($this->days / 365.2425);
 	}
-	
+
 	private function _getMonth() {
 		$leaps = array_fill(0, 13, 0);
 		$days = $this->days - $this->_getLeapDays((int) ($this->days / 365.2425), 1, 1);
@@ -108,7 +108,7 @@ class TDateTime {
 		}
 		return $month;
 	}
-	
+
 	private function _getDay() {
 		$leaps = array_fill(0, 13, 0);
 		$days = $this->days - $this->_getLeapDays((int) ($this->days / 365.2425), 1, 1);
@@ -125,23 +125,23 @@ class TDateTime {
 		}
 		return $days;
 	}
-	
+
 	private function _getHour() {
 		return (int) ($this->secs / (3600));
 	}
-	
+
 	private function _getMins() {
-		return (int) (($this->secs % 3600) / 60);	
+		return (int) (($this->secs % 3600) / 60);
 	}
-	
+
 	private function _getSecs() {
 		return $this->secs % 60;
 	}
-	
+
 	private function _getDayOfWeek() {
 		return ($this->days - 1) % 7;
 	}
-	
+
 	private function _getDayOfYear($month, $day) {
 		$days = 0;
 //zing::debug('month: ' . $month . ' day: ' . $day);
@@ -149,11 +149,11 @@ class TDateTime {
 //zing::debug('days: ' . self::$_daysPerMonth[$month] . ' month: ' . $month);
 			$days += self::$_daysPerMonth[$month];
 		}
-		
+
 		$days += $day;
 		return $days;
 	}
-	
+
 	private function _isLeapYear($year = -1) {
 		if ($year == -1) {
 			$year = $this->_getYear();
@@ -169,7 +169,7 @@ class TDateTime {
 			$leap = true;
 		}
 		return $leap;
-	}		
+	}
 
 	private function _isLeapMonth() {
 		if ($this->_isLeapYear() && $this->_getMonth() == 2) {
@@ -177,13 +177,13 @@ class TDateTime {
 		}
 		return false;
 	}
-	
+
 	private function _getLeapDays($year, $month = 1, $day = 1) {
 		$leaps = (int) ($year / 4);
 		$leaps -= (int) ($year / 100);
 		$leaps += (int) ($year / 400);
 		$leap = false;
-		
+
 		if ($this->_isLeapYear($year) && $month <= 2 && $leaps) {
 			$leaps--;
 		}
@@ -196,7 +196,7 @@ class TDateTime {
 			$leapDays = $this->_getLeapDays($curYear + $year, $this->_getMonth(), $this->_getDay()) - $this->_getLeapDays($curYear, $this->_getMonth(), $this->_getDay());
 			$this->days += $year * 365 + $leapDays;
 		}
-		
+
 		if ($month != 0) {
 			$curMonth = $this->_getMonth();
 			$dir = $month < 0 ? -1 : 1;
@@ -211,12 +211,12 @@ class TDateTime {
 				}
 				$month -= $dir;
 			}
-		}		
-		
+		}
+
 		if ($day != 0) {
 			$this->days += $day;
 		}
-		
+
 		$this->secs += ($hour * 3600) + ($min * 60) + $sec;
 		if ($this->secs < 0 || $this->secs > 86399) {
 			$this->days += (int)($this->secs / 86400);
@@ -226,7 +226,7 @@ class TDateTime {
 				$this->secs += 86400;
 			}
 		}
-		
+
 		$this->refresh();
 	}
 
@@ -234,21 +234,21 @@ class TDateTime {
 		if ($this->days < $when->days) {
 			return true;
 		}
-		
+
 		if ($this->days > $when->days) {
 			return false;
 		}
-		
+
 		if ($this->secs < $when->secs) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public function __toString() {
 		return $this->toString();
 	}
-	
+
 	public function toString($format = 'Q') {
 		$output = '';
 		for ($i = 0 ; $i < strlen($format) ; $i++) {
@@ -257,7 +257,7 @@ class TDateTime {
 			case '\\':
 				$output .= substr($format, ++$i, 1);
 				break;
-			
+
 			case 'Q':
 				$output .= sprintf('%04d-%02d-%02d %02d:%02d:%02d',
 								$this->year, $this->month, $this->day,
@@ -349,7 +349,7 @@ class TDateTime {
 				break;
 			}
 		}
-		return $output;		
+		return $output;
 	}
 }
 

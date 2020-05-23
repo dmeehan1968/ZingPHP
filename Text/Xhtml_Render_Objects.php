@@ -1,7 +1,7 @@
 <?php
 
 class Xhtml_Render_Objects extends TextParser_Renderer {
-	
+
 	public function render($params) {
 		$object = zing::create($params['class'], $params['params']);
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 abstract class TObjectPersistence {
 
@@ -9,7 +9,7 @@ abstract class TObjectPersistence {
 	private $stored = false;
 
 	const	CASCADE = true;
-			
+
 	public function __construct($pdo, $params = array()) {
 		$this->pdo = $pdo;
 
@@ -17,21 +17,21 @@ abstract class TObjectPersistence {
 			$this->columns[$col] = $this->$col;
 			unset($this->$col);
 		}
-		
+
 		$this->processParams($params);
 
 		$this->setDirty(false);
-				
+
 	}
 
-	public function processParams($params = array()) {		
+	public function processParams($params = array()) {
 		foreach ($params as $param => $value) {
 			if (array_key_exists($param, $this->columns)) {
 				$this->columns[$param] = $value;
 			}
 		}
 	}
-	
+
 	public function __get($name) {
 
 		if (array_key_exists($name, $this->columns)) {
@@ -49,7 +49,7 @@ abstract class TObjectPersistence {
 			}
 		}
 	}
-	
+
 	public function __set($name, $value) {
 		if (array_key_exists($name, $this->columns)) {
 			if ($value instanceof TDateTime) {
@@ -64,14 +64,14 @@ abstract class TObjectPersistence {
 			$this->$name = $value;
 		}
 	}
-	
+
 	public function setDirty($value = true) {
 		$this->dirty = $value;
 		if (!$this->dirty) {
 			$this->dirtyColumns = array();
 		}
 	}
-	
+
 	public function isDirty($column = null) {
 		if (is_null($column)) {
 			return $this->dirty;
@@ -83,13 +83,13 @@ abstract class TObjectPersistence {
 	public function setStored($stored = false) {
 		$this->stored = $stored;
 	}
-	
+
 	public function isStored() {
 		return $this->stored;
 	}
-	
+
 	private $reflectionClass;
-	
+
 	public function getReflectionClass() {
 		if (! isset($this->reflectionClass)) {
 			$this->reflectionClass = new ReflectionClass($this);
@@ -112,7 +112,7 @@ abstract class TObjectPersistence {
 		}
 		return $names;
 	}
-	
+
 	public function getColumnNamesForSql() {
 		$cols = $this->getColumnNames();
 		$table = $this->getTableName();
@@ -121,8 +121,8 @@ abstract class TObjectPersistence {
 			$colStr .= ($index ? ', ' : '') . $table . '.' . $col;
 		}
 		return $colStr;
-	}		
-	
+	}
+
 	public function getTableName() {
 		return strtolower(get_class($this)) . 's';
 	}
@@ -134,7 +134,7 @@ abstract class TObjectPersistence {
 		$col = new TObjectCollection($pdo, $statement, $model);
 		return $col[0];
 	}
-	
+
 	protected static function findAllByStatement(ZingPDO $pdo, $statement, $model) {
 		if (!$statement->execute()) {
 			throw new TObjectPdoException($statement);
@@ -154,8 +154,8 @@ abstract class TObjectPersistence {
 		if ( ! $this->isDirty() ) {
 			return;
 		}
-		
-		$names = $this->getColumnNames();	
+
+		$names = $this->getColumnNames();
 		$sql = 'insert ' . ($ignore ? 'ignore ' : '') . 'into '.$this->getTableName().' ('.implode(', ',$names).') values (:'.implode(', :',$names).')';
 		$statement = $this->pdo->prepare($sql);
 		foreach ($names as $name) {
@@ -164,31 +164,31 @@ abstract class TObjectPersistence {
 		if (! $statement->execute()) {
 			throw new TObjectPdoException($statement);
 		}
-		
+
 		$this->id = $this->pdo->lastInsertId();
 
 		$this->setDirty(false);
 		$this->setStored(true);
 	}
-	
+
 	public function update() {
 
 		if ( ! $this->isDirty() ) {
 			return;
 		}
-		
+
 		if ( ! $this->isStored() ) {
 			return $this->insert();
 		}
-		
-		$names = $this->getColumnNames();	
+
+		$names = $this->getColumnNames();
 		$sql = 'update '.$this->getTableName().' set ';
 		foreach ($names as $index => $name) {
 			$sql .= ($index ? ', ' : '') . $name . ' = :' . $name;
 		}
-		
+
 		$sql .= ' where id = :object_id';
-		
+
 		$statement = $this->pdo->prepare($sql);
 		foreach ($names as $name) {
 			$statement->bindParam(':'.$name, $this->$name);
@@ -201,35 +201,35 @@ abstract class TObjectPersistence {
 
 		$this->setDirty(false);
 		$this->setStored(true);
-		
+
 	}
-	
+
 	public function destroy($cascade = false) {
-	
+
 		if ( ! $this->isStored() ) {
 			return;
 		}
-		
+
 		$sql = 'delete from '.$this->getTableName().' where id = :id';
 		$statement = $this->pdo->prepare($sql);
 		$statement->bindParam(':id', $this->id);
 
 		if (! $statement->execute()) {
 			throw new TObjectPdoException($statement);
-		}		
+		}
 	}
-	
+
 	public function validate() {
 		$errors = array();
 		$columns = $this->getColumnNames();
-		
+
 		foreach ($this->getReflectionClass()->getProperties() as $property) {
 			$name = $property->getName();
 			if (!in_array($name, $columns)) {
 				// only check properties that are columns
 				continue;
 			}
-			
+
 			$validate = 'validate'.$name;
 			if (method_exists($this, $validate)) {
 				$err = $this->$validate();
@@ -305,7 +305,7 @@ abstract class TObjectPersistence {
 								throw new exception('Unknown validation method \''.$match['method'].'\'');
 							}
 						}
-						
+
 						if ($result == false) {
 							if (strlen($match['error'])) {
 								$errors[$name] = $match['error'];
@@ -318,35 +318,35 @@ abstract class TObjectPersistence {
 				}
 			}
 		}
-		
+
 		return count($errors) ? $errors : true;
 	}
-	
+
 	public function isEqual($object) {
 		if (get_class($this) != get_class($object)) {
 			return false;
 		}
-		
+
 		foreach ($this->getColumnNames() as $column) {
 			if ($this->$column != $object->$column) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	public function reloadDynamicValue($column) {
 		unset($this->columns[$column]);
 	}
-	
+
 	public function getDirtyColumns($alt = true) {
 		if (!$alt) {
 			return array_keys($this->dirtyColumns);
 		}
 
 		$dirtyColumns = array();
-		
+
 		foreach ($this->getReflectionClass()->getProperties() as $property) {
 			$name = $property->getName();
 			// only convert properties that are in the dirty columns array
@@ -360,7 +360,7 @@ abstract class TObjectPersistence {
 		}
 		return $dirtyColumns;
 	}
-				
+
 }
 
 

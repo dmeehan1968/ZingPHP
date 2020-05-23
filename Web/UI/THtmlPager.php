@@ -3,30 +3,30 @@
 class THtmlPager extends THtmlDiv {
 
 	private $pager;
-	
+
 	public function __construct($params = array()) {
 		$this->pager = new TPager;
 		parent::__construct($params);
 	}
-	
+
 	private $pageRequestVar = 'page';
-	
+
 	public function setPageRequestVar($requestVar) {
 		$this->pageRequestVar = $requestVar;
 	}
-	
+
 	public function getPageRequestVar() {
 		return $this->pageRequestVar;
 	}
-	
+
 	public function setItemCount($items) {
 		$this->pager->setItemCountPerPage($items);
 	}
-	
+
 	public function getItemCount() {
 		return $this->pager->getItemCountPerPage();
 	}
-	
+
 	public function load() {
 		$this->children[] = zing::create('THtmlStyle', array('href' => '/Zing/Assets/Styles/pager.css', 'type' => 'text/css', 'rel' => 'stylesheet'));
 		parent::load();
@@ -34,7 +34,7 @@ class THtmlPager extends THtmlDiv {
 
 	public function render() {
 		$sess = TSession::getInstance();
-		
+
 		$this->pager->setItemArray($this->getBoundObject());
 		$this->pager->setCurrentPage($sess->app->request[$this->getPageRequestVar()]);
 		$this->setBoundObject($this->pager->getLimitedItemIterator());
@@ -59,7 +59,7 @@ class THtmlPager extends THtmlDiv {
 		}
 		foreach ($linkTypes as $linkType) {
 			$params = array('module' => 'Zing/Web/CMS/THtmlFileList', 'dir' => $sess->app->request->dir);
-			
+
 			switch ($linkType) {
 			case 'first':
 				$params['innerText'] = 'First';

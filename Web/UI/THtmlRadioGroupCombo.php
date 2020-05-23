@@ -3,7 +3,7 @@
 class THtmlRadioGroupCombo extends THtmlCheckboxGroupCombo {
 
 	public function createControls() {
-	
+
 		$this->control = zing::create('THtmlRadioGroup');
 		THtmlFormCombo::createControls();
 	}
@@ -12,7 +12,7 @@ class THtmlRadioGroupCombo extends THtmlCheckboxGroupCombo {
 		$this->addClass('form-radio-group-combo');
 		THtmlFormCombo::init();
 	}
-	
+
 }
 
 ?>

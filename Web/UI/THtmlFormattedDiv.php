@@ -3,20 +3,20 @@
 class THtmlFormattedDiv extends THtmlDiv {
 
 	private $paragraph = true;
-	
+
 	public function setParagraph($bool) {
 		$this->paragraph = zing::evaluateAsBoolean($bool);
 	}
-	
+
 	public function getParagraph() {
 		return $this->paragraph;
 	}
 
 	public function setInnerText($text) {
 		$this->children->deleteAll();
-		parent::setInnerText($text);	
+		parent::setInnerText($text);
 	}
-	
+
 	public function preRender() {
 		ob_start();
 		parent::preRender();
@@ -27,15 +27,15 @@ class THtmlFormattedDiv extends THtmlDiv {
 		$this->addClass('formatted-div');
 
 		$this->children->deleteAll();
-		
+
 		// strip whitespace from line ends, and then split on 1 or more newlines.  Empty lines are ignored.
-		
+
 		$paras = preg_split('/(?:\s*\n){2,}/', $output, -1, PREG_SPLIT_NO_EMPTY);
-		
+
 		$top = $container = $this->children[] = zing::create('TCompositeControl');
-		
+
 		$formattingEnabled = true;
-		
+
 		foreach ($paras as $para) {
 
 			/**
@@ -47,7 +47,7 @@ class THtmlFormattedDiv extends THtmlDiv {
 			 * Consequetive definitions are placed within the same list. Any other para type between
 			 * definitions will split the list.
 			 */
-			 
+
 			if (preg_match('/^(?P<term>[\w\d\s\-\.]+)\s::\s(?P<def>.*)/', $para, $m)) {
 				if (get_class($container) == 'TCompositeControl' ||
 						($container instanceof THtmlControl && $container->getTag() != 'dl')) {
@@ -64,7 +64,7 @@ class THtmlFormattedDiv extends THtmlDiv {
 			if ($container instanceof THtmlControl && $container->getTag() == 'dl') {
 				$container = $container->getContainer();
 			}
-			
+
 			/**
 			 * DIV
 			 *
@@ -81,7 +81,7 @@ class THtmlFormattedDiv extends THtmlDiv {
 			 *
 			 * Script - if the class is 'script', the enclosed content is interpretted as javascript
 			 */
-			 
+
 			if (preg_match('/^\[(?P<close>\/?)(?:\#(?P<id>[\w][\w0-9\-_]*))?(?:\.?(?P<class>[\w0-9\-_\s\.]+))?\](?:{(?P<perms>.*)})?\s*$/', $para, $m)) {
 				if ($m['close'] != '/') {
 					// OPEN TAG
@@ -119,13 +119,13 @@ class THtmlFormattedDiv extends THtmlDiv {
 
 				continue;
 			}
-		
+
 			if (! $formattingEnabled) {
 				$paraCtl = $container->children[] = zing::create('TRawOutput');
 				$paraCtl->setInnerText($para);
 				continue;
 			}
-			
+
 			/**
 			 *
 			 * OBJECTS
@@ -152,16 +152,16 @@ class THtmlFormattedDiv extends THtmlDiv {
 				$object = $container->children[] = zing::create($class, $argArray);
 				continue;
 			}
-	
-		
-			/** 
+
+
+			/**
 			 * HEADINGS
 			 *
 			 * h1. Heading Text
 			 *
 			 * Must start at beginning of line.  Digit can be 1-6.
 			 */
-								
+
 			if (preg_match('/^h(?P<level>[1-6])\.(?P<class>[\w0-9\-_]*)?\s(?P<title>.*)/', $para, $m)) {
 				$params = array('tag' => 'h'.$m['level'], 'paragraph' => false, 'innerText' => trim($m['title']));
 				if (isset($m['class'])) {
@@ -172,17 +172,17 @@ class THtmlFormattedDiv extends THtmlDiv {
 				continue;
 			}
 
-			/** 
+			/**
 			 * Paragraphs with id and/or class
 			 *
 			 * #id.classname.classname... yada, yada, yada...
 			 *
-			 * Period or hash must start at beginning of line.  The line can be empty, 
+			 * Period or hash must start at beginning of line.  The line can be empty,
 			 * in which case the para will still render.  Useful for
 			 * inserting clearing divs for floated objects.
 			 * id must come first, followed by zero or more classnames preceeded with dot.
 			 */
-								
+
 			if (preg_match('/^(?:#(?P<id>[\w][\w0-9\-_]*))?(?:\.(?P<class>[\w][\w0-9\-_\.]+))?\s+(?P<para>.*)/', $para, $m)) {
 				if (!empty($m['id']) || !empty($m['class'])) {
 					$params = array('tag' => 'p', 'hidewhenempty' => false, 'paragraph' => false, 'innerText' => trim($m['para']));
@@ -207,9 +207,9 @@ class THtmlFormattedDiv extends THtmlDiv {
 			 * # Numbered Item 1
 			 * ## Numbered Item 1.1
 			 *
-			 */ 
-						
-			if (preg_match_all('/^(?P<style>\*+|#+)\s+(?P<item>.*)(?:\n|$)/m', $para, $m)) {					
+			 */
+
+			if (preg_match_all('/^(?P<style>\*+|#+)\s+(?P<item>.*)(?:\n|$)/m', $para, $m)) {
 				$style = ($m['style'][0] == '*') ? 'ul' : 'ol';
 				$depth = 0;
 				$list = '';
@@ -232,16 +232,16 @@ class THtmlFormattedDiv extends THtmlDiv {
 				}
 				continue;
 			}
-		
+
 			/**
 			 * == TABLES
 			 *
 			 * |Col 1|Col 2|Col 3|
 			 * |Col 1|Col 2|Col 3|
 			 *
-			 */ 
-						
-			if (preg_match_all('/^(?P<row>\|.*\|)/m', $para, $m)) {					
+			 */
+
+			if (preg_match_all('/^(?P<row>\|.*\|)/m', $para, $m)) {
 				$tbl = $container->children[] = zing::create('THtmlControl', array('tag' => 'table'));
 				$tbl->attributes['cellspacing'] = 0;
 				$tblBody = $tbl->children[] = zing::create('THtmlDiv', array('tag' => 'tbody'));
@@ -271,12 +271,12 @@ class THtmlFormattedDiv extends THtmlDiv {
 				}
 				continue;
 			}
-		
-			/** 
+
+			/**
 			 * == REMAINDER IS INLINE TEXT, SO DETERMINE IF PARA IS NEEDED
 			 *
 			 */
-			
+
 			if ($this->getParagraph()) {
 				$paraCtl = $container->children[] = zing::create('THtmlDiv', array('tag' => 'p'));
 				$container->children[] = zing::create('TPlainText', array('value' => "\r\n"));
@@ -296,7 +296,7 @@ class THtmlFormattedDiv extends THtmlDiv {
 			 * punctuation.
 			 *
 			 */
-			
+
 			if (preg_match_all("/(?<=^|\s|\pP)(?P<style>\*|_)(?P<text>.+?)(?:\\1)(?=\s|$|\pP)/m",$para, $m, PREG_OFFSET_CAPTURE)) {
 				$offset = 0;
 				foreach ($m[0] as $index => $source) {
@@ -312,7 +312,7 @@ class THtmlFormattedDiv extends THtmlDiv {
 					$paraCtl->children[] = zing::create('THtmlFormattedDiv', array('visible' => self::VIS_CHILDREN, 'innerText' => $text, 'paragraph' => false));
 				}
 				continue;
-			}		
+			}
 
 			/**
 			 * == HTML Entities
@@ -320,7 +320,7 @@ class THtmlFormattedDiv extends THtmlDiv {
 			 * &name;
 			 *
 			 */
-			
+
 			if (preg_match_all("/\&[a-z]+?\;/m",$para, $m, PREG_OFFSET_CAPTURE)) {
 				$offset = 0;
 				foreach ($m[0] as $index => $source) {
@@ -336,14 +336,14 @@ class THtmlFormattedDiv extends THtmlDiv {
 					$paraCtl->children[] = zing::create('THtmlFormattedDiv', array('visible' => self::VIS_CHILDREN, 'innerText' => $text, 'paragraph' => false));
 				}
 				continue;
-			}		
+			}
 
             /**
              * == LINE BREAKS
              *
              * first line || second line
              */
-            
+
 			if (preg_match_all("/\s+\|\|\s+/m",$para, $m, PREG_OFFSET_CAPTURE)) {
 				$offset = 0;
 				foreach ($m[0] as $index => $source) {
@@ -359,14 +359,14 @@ class THtmlFormattedDiv extends THtmlDiv {
 					$paraCtl->children[] = zing::create('THtmlFormattedDiv', array('visible' => self::VIS_CHILDREN, 'innerText' => $text, 'paragraph' => false));
 				}
 				continue;
-			}		
+			}
 
             /**
              * == BOOKMARKS
              *
              * @bookmark@
              */
-            
+
 			if (preg_match_all("/@(?P<bookmark>[^\|@]+)(\|(?P<inner>[^@]*))?@/",$para, $m, PREG_OFFSET_CAPTURE)) {
 				$offset = 0;
 				foreach ($m[0] as $index => $source) {
@@ -382,7 +382,7 @@ class THtmlFormattedDiv extends THtmlDiv {
 					$paraCtl->children[] = zing::create('THtmlFormattedDiv', array('visible' => self::VIS_CHILDREN, 'innerText' => $text, 'paragraph' => false));
 				}
 				continue;
-			}		
+			}
 
 			/**
 			 * == INLINE IMAGES
@@ -392,7 +392,7 @@ class THtmlFormattedDiv extends THtmlDiv {
 			 * class, style and alt must be specified in that order, but are all optional
 			 *
 			 */
-			 
+
 			if (preg_match_all('/!(?P<url>(?:[A-Z]+:\/\/)?[^\.]+\.(?:jpg|gif|png|bmp))(?:\|class=(?P<class>[^|!]+))?(?:\|style=(?P<style>[^|!]+))?(?:\|alt=(?P<alt>[^|!]+))?(?:\|link=(?P<link>[^|!]+))?!/i', $para, $m, PREG_OFFSET_CAPTURE)) {
 				$offset = 0;
 				foreach ($m[0] as $index => $source) {
@@ -400,9 +400,9 @@ class THtmlFormattedDiv extends THtmlDiv {
 						$text = substr($para, $offset, $source[1]-$offset);
 						$paraCtl->children[] = zing::create('THtmlFormattedDiv', array('visible' => self::VIS_CHILDREN, 'innerText' => $text, 'paragraph' => false));
 					}
-					
+
 					$imgContainer = $paraCtl;
-					
+
 					if (!empty($m['url'][$index][0])) {
 						$params = array('src' =>  $m['url'][$index][0]);
 						if (!empty($m['style'][$index][0])) {
@@ -433,7 +433,7 @@ class THtmlFormattedDiv extends THtmlDiv {
 					$paraCtl->children[] = zing::create('THtmlFormattedDiv', array('visible' => self::VIS_CHILDREN, 'innerText' => $text, 'paragraph' => false));
 				}
 				continue;
-		
+
 			}
 
             /**
@@ -442,7 +442,7 @@ class THtmlFormattedDiv extends THtmlDiv {
 			 * user@domain.com|"Inner Text"
 			 * www.domain.com|"Inner Text"
 			 */
-			
+
 			$email = '[A-Z0-9-_&]+(\.[A-Z0-9-_&]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+';
 			$web = '((([A-Z]+:\/\/)|www\.)[A-Z0-9-_]+(\.[A-Z0-9][A-Z0-9-_]+)+(:\d+)?|((?<=\s|^)\/[^\/\?\s\|]+)|(#[\w\d\-_]+))(\/[^\/\?\s\|#]+)*(\?[^\s\|]*)?';
 			if (preg_match_all('/((?:(?P<email>'.$email.')|(?P<web>'.$web.'))(?:\|(?:target=(?P<target>[\w_][\w_\-\d]+)\|)?\"(?P<inner>[^\"]+)\")?|(?P<web2>\/)(?:\|(?:target=(?P<target2>[\w_][\w_\-\d]+)\|)?\"(?P<inner2>[^\"]+)\"))/mi',$para, $m, PREG_OFFSET_CAPTURE)) {
@@ -490,15 +490,15 @@ class THtmlFormattedDiv extends THtmlDiv {
 					$paraCtl->children[] = zing::create('THtmlFormattedDiv', array('visible' => self::VIS_CHILDREN, 'innerText' => $text, 'paragraph' => false));
 				}
 				continue;
-			}		
-			
+			}
+
 			$paraCtl->setInnerText($para);
 		}
-		
+
 		$top->doStatesUntil('preRender');
 	}
-	
-	
+
+
 }
 
 ?>

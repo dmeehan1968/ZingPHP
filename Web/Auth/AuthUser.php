@@ -5,41 +5,41 @@ require_once('Mail.php');
 class AuthUser extends TObjectPersistence {
 
 	public	$id;
-	/** 
+	/**
 	 * @validate "Usernames must be a valid email address" email
 	 */
 	public	$username;				// username should be email address
 	public 	$password;
-	
-	/** 
+
+	/**
 	 * @validate "You must enter a valid date/time" sql_datetime
 	 */
 	public	$created;				// when this account was created
-	/** 
+	/**
 	 * @validate "You must enter a valid date/time" sql_datetime
 	 */
 	public	$expires;				// when this account expires
-	/** 
+	/**
 	 * @validate optional "Should be a valid IP address" ip_address
 	 */
 	public	$verified_ip;			// the ip address of the client that verifies
-	/** 
+	/**
 	 * @validate optional "You must enter a valid date/time" sql_datetime
 	 */
 	public	$verified_timestamp;	// the date/time of when the verification occured
-	/** 
+	/**
 	 * @validate optional "You must enter a valid date/time" sql_datetime
 	 */
 	public	$verified_expires;		// the new expiry time after verification
-	/** 
+	/**
 	 * @validate optional "You must enter a valid date/time" sql_datetime
 	 */
 	public	$last_login;			// the datetime of the last login
-	/** 
+	/**
 	 * @validate optional "You must enter a valid date/time" sql_datetime
 	 */
 	public	$previous_login;		// the datetime of the previous login
-	
+
 	public function __construct(ZingPDO $pdo, $params = array()) {
 		parent::__construct($pdo);
 		$created = new TDateTime();
@@ -49,7 +49,7 @@ class AuthUser extends TObjectPersistence {
 		$this->processParams($params);
 		$this->setDirty(false);
 	}
-	
+
 	public function loadGroups() {
 		$sql = '	select authgroups.* from authgroups
 					join authuser_relatesto_authgroups as auag on auag.authgroup_id = authgroups.id
@@ -62,7 +62,7 @@ class AuthUser extends TObjectPersistence {
 		}
 		return new TObjectCollection($this->pdo, $s, 'AuthGroup');
 	}
-	
+
 	public function loadRoles() {
 		$sql = '	select authroles.* from authroles
 					join authuser_relatesto_authroles as auar on auar.authrole_id = authroles.id
@@ -75,7 +75,7 @@ class AuthUser extends TObjectPersistence {
 		}
 		return new TObjectCollection($this->pdo, $s, 'AuthRole');
 	}
-	
+
 	public function loadPermissions() {
 		$sql = '	select authperms.* from authperms
 					join authuser_relatesto_authperms as auap on auap.authperm_id = authperms.id
@@ -88,7 +88,7 @@ class AuthUser extends TObjectPersistence {
 		}
 		return new TObjectCollection($this->pdo, $s, 'AuthPerm');
 	}
-	
+
 	public function loadExpandedGroups() {
 		$groups = array();
 		foreach ($this->groups as $group) {
@@ -97,7 +97,7 @@ class AuthUser extends TObjectPersistence {
 		sort($groups);
 		return $groups;
 	}
-	
+
 	public function loadExpandedRoles() {
 		$roles = array();
 		foreach ($this->groups as $group) {
@@ -112,7 +112,7 @@ class AuthUser extends TObjectPersistence {
 		sort($roles);
 		return $roles;
 	}
-	
+
 	public function loadExpandedPermissions() {
 		$perms = array();
 		foreach ($this->groups as $group) {
@@ -121,21 +121,21 @@ class AuthUser extends TObjectPersistence {
 					$perms[] = $perm->name;
 				}
 			}
-		
+
 			foreach ($group->permissions as $perm) {
 				$perms[] = $perm->name;
 			}
 		}
-		
+
 		foreach ($this->permissions as $perm) {
 			$perms[] = $perm->name;
 		}
-		
+
 		$perms = array_unique($perms);
 		sort($perms);
 		return $perms;
 	}
-	
+
 	public static function findOneByCredentials(ZingPDO $pdo, $username, $password) {
 		$sql = '	select * from authusers
 					where username = :username and password = md5(:password)
@@ -149,7 +149,7 @@ class AuthUser extends TObjectPersistence {
 		$col = new TObjectCollection($pdo, $s, 'AuthUser');
 		return $col[0];
 	}
-	
+
 	public static function findOneById(ZingPDO $pdo, $id) {
 		$sql = '	select * from authusers
 					where id = :id
@@ -162,7 +162,7 @@ class AuthUser extends TObjectPersistence {
 		$col = new TObjectCollection($pdo, $s, 'AuthUser');
 		return $col[0];
 	}
-	
+
 	public static function findOneByUsername(ZingPDO $pdo, $username) {
 		$sql = '	select * from authusers
 					where username = :username
@@ -175,7 +175,7 @@ class AuthUser extends TObjectPersistence {
 		$col = new TObjectCollection($pdo, $s, 'AuthUser');
 		return $col[0];
 	}
-	
+
 	public static function findAll(ZingPDO $pdo) {
 		$sql = 'select * from authusers order by username';
 		$s = $pdo->prepare($sql);
@@ -184,7 +184,7 @@ class AuthUser extends TObjectPersistence {
 		}
 		return new TObjectCollection($pdo, $s, 'AuthUser');
 	}
-	
+
 	public function addGroupById($groups = array()) {
 		$sql = 'insert ignore into authuser_relatesto_authgroups (authuser_id, authgroup_id)
 				select :user, id from authgroups where id in (' . implode(',', (array)$groups) . ')';
@@ -195,7 +195,7 @@ class AuthUser extends TObjectPersistence {
 		}
 		$this->reloadDynamicValue('groups');
 	}
-	
+
 	public function removeGroupById($groups = array()) {
 		$sql = 'delete from authuser_relatesto_authgroups where authuser_id = :user and authgroup_id = :group';
 		$s = $this->pdo->prepare($sql);
@@ -205,7 +205,7 @@ class AuthUser extends TObjectPersistence {
 			if (!$s->execute()) {
 				throw new TObjectPdoException($s);
 			}
-		}			
+		}
 	}
 
 	public function addGroupByName($groups = array()) {
@@ -213,17 +213,17 @@ class AuthUser extends TObjectPersistence {
 		foreach ((array)$groups as $group) {
 			$groupText .= (!empty($groupText) ? ', ' : '') . $this->pdo->quote($group);
 		}
-			
+
 		$sql = 'insert ignore into authuser_relatesto_authgroups (authuser_id, authgroup_id)
 				select :user, id from authgroups where name in (' . $groupText . ')';
 		$s = $this->pdo->prepare($sql);
 		$s->bindParam(':user', $this->id, ZingPDO::PARAM_INT);
 		if (!$s->execute()) {
 			throw new TObjectPdoException($s);
-		}			
+		}
 		$this->reloadDynamicValue('groups');
 	}
-		
+
 	public function addRoleById($roles = array()) {
 		$sql = 'insert ignore into authuser_relatesto_authroles (authuser_id, authrole_id)
 				select :user, id from authroles where id in (' . implode(',', (array)$roles) . ')';
@@ -231,10 +231,10 @@ class AuthUser extends TObjectPersistence {
 		$s->bindParam(':user', $this->id, ZingPDO::PARAM_INT);
 		if (!$s->execute()) {
 			throw new TObjectPdoException($s);
-		}			
+		}
 		$this->reloadDynamicValue('roles');
 	}
-	
+
 	public function removeRoleById($roles = array()) {
 		$sql = 'delete from authuser_relatesto_authroles where authuser_id = :user and authrole_id in (' . implode(',',(array)$roles) . ')';
 		$s = $this->pdo->prepare($sql);
@@ -252,10 +252,10 @@ class AuthUser extends TObjectPersistence {
 		$s->bindParam(':user', $this->id, ZingPDO::PARAM_INT);
 		if (!$s->execute()) {
 			throw new TObjectPdoException($s);
-		}			
+		}
 		$this->reloadDynamicValue('permissions');
 	}
-	
+
 	public function removePermissionById($perms = array()) {
 		$sql = 'delete from authuser_relatesto_authperms where authuser_id = :user and authperm_id in (' . implode(',',(array)$perms) . ')';
 		$s = $this->pdo->prepare($sql);
@@ -265,7 +265,7 @@ class AuthUser extends TObjectPersistence {
 		}
 		$this->reloadDynamicValue('permissions');
 	}
-	
+
 	public function destroy($cascade = false) {
 		if ($cascade) {
 			$sql = 'delete from authuser_relatesto_authgroups where authuser_id = :id';
@@ -274,14 +274,14 @@ class AuthUser extends TObjectPersistence {
 			if (!$s->execute()) {
 				throw new TObjectPdoException($s);
 			}
-			
+
 			$sql = 'delete from authuser_relatesto_authroles where authuser_id = :id';
 			$s = $this->pdo->prepare($sql);
 			$s->bindParam(':id', $this->id, ZingPDO::PARAM_INT);
 			if (!$s->execute()) {
 				throw new TObjectPdoException($s);
 			}
-			
+
 			$sql = 'delete from authuser_relatesto_authperms where authuser_id = :id';
 			$s = $this->pdo->prepare($sql);
 			$s->bindParam(':id', $this->id, ZingPDO::PARAM_INT);
@@ -291,7 +291,7 @@ class AuthUser extends TObjectPersistence {
 		}
 		parent::destroy($cascade);
 	}
-	
+
 	public static function deleteOneById(ZingPDO $pdo, $id) {
 		$sql = 'delete from authusers where id = :id';
 		$s = $pdo->prepare($sql);
@@ -323,11 +323,11 @@ class AuthUser extends TObjectPersistence {
 	 * or
 	 * PEAR_Error in the event of a mailing problem.
 	 */
-	
+
 	public function resetPassword($userParams = array()) {
-		
+
 		if ($this->expires && $this->isExpired()) {
-			
+
 			return TAuthentication::RC_EXPIRED;
 		}
 		$sess = TSession::getInstance();
@@ -342,7 +342,7 @@ class AuthUser extends TObjectPersistence {
 						'sitename' => $sess->app->server->http_host,
 						'verifyPeriod' => $verifyPeriod,
 						'verifiedExpires' => new TDateTime(-1));
-		
+
 		$params = array_merge($params, $userParams);
 		$valid = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 		$password = '';
@@ -384,13 +384,13 @@ We hope you enjoy using your account.
 Thanks.
 EOT;
 
-		
+
 		$res = $mail->send($this->username,
 				   array(	'From' => $sess->parameters['mail.parameters']['reply-to'],
 							'To' => $this->username,
 							'Subject' => $params['sitename'] . ': Account Verification'),
 				   $message);
-		
+
 		if (PEAR::isError($res)) {
 			return $res;
 		}
@@ -407,21 +407,21 @@ EOT;
 		$this->verified_expires = null;
 		$this->update();
 	}
-	  
+
 	public function recordLogin($time = null) {
 		if (is_null($time)) {
 			$time = time();
 		}
-		
+
 		$this->previous_login = $this->last_login;
 		$this->last_login = zing::timeToSqlDateTime($time);
 		$this->update();
 	}
-	
+
 	public function isVerified() {
 		return ! (trim($this->verified_ip) == '');
 	}
-	
+
 	public function isExpired() {
 		$expires = new TDateTime($this->expires);
 		return $expires->lessThan(new TDateTime);

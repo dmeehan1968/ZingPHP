@@ -3,7 +3,7 @@
 class File extends TObjectPersistence {
 
 	public	$id;
-	
+
 	public	$filename;
 	/**
 	 * @validate "You cannot upload a file of no size" min 1
@@ -18,25 +18,25 @@ class File extends TObjectPersistence {
 	 * @validate "The long description may not exceed 1000 words" wordcount 0,1000
 	 */
 	public	$long_description;
-	
+
 	public	$filetype_id;
 	public	$etag = '';
-	
+
 	public	$modified;
-	
+
 	public function setContent($path) {
 		$this->filePath = $path;
 	}
-	
+
 	public function insert() {
 		parent::insert();
-		
+
 		$this->updateData();
 	}
-	
+
 	public function update() {
 		parent::update();
-		
+
 		$this->updateData();
 	}
 
@@ -55,7 +55,7 @@ class File extends TObjectPersistence {
 				throw new Exception('unable to open file (' . $this->filePath . ')');
 			}
 			unset($this->filePath);
-			
+
 			$this->modified = gmdate('Y-m-d H:i:s', time());
 			$sql = 'update files set etag = md5(data), modified = :modified where id = :id';
 			$s = $this->pdo->prepare($sql);
@@ -64,11 +64,11 @@ class File extends TObjectPersistence {
 			if (! $s->execute()) {
 				throw new TObjectPdoException($s);
 			}
-		} 
+		}
 	}
-	
+
 	public function loadData() {
-	
+
 		$sql = '	select id, data from files
 					where id = :id
 					limit 1';
@@ -82,7 +82,7 @@ class File extends TObjectPersistence {
 		$statement->fetch(ZingPDO::FETCH_BOUND);
 		return $data;
 	}
-	
+
 	public static function findOneByFilename(ZingPDO $pdo, $filename) {
 		$tmpFile = new File($pdo);
 		$sql = '	select '.$tmpFile->getColumnNamesForSql().' from files
@@ -93,11 +93,11 @@ class File extends TObjectPersistence {
 		if (!$statement->execute()) {
 			throw new TObjectPdoException($statement);
 		}
-		
+
 		$col = new TObjectCollection($pdo, $statement, 'File');
 		return $col[0];
 	}
-	
+
 	public static function findAllByType(ZingPDO $pdo, $filetype, $limit = 1000) {
 		$tmpFile = new File($pdo);
 		$sql = '	select '.$tmpFile->getColumnNamesForSql().', rand() as score from files
@@ -110,10 +110,10 @@ class File extends TObjectPersistence {
 		if (!$statement->execute()) {
 			throw new TObjectPdoException($statement);
 		}
-		
+
 		return new TObjectCollection($pdo, $statement, 'File');
 	}
-	
+
 	public static function findOneByType(ZingPDO $pdo, $filetype) {
 		$tmpFile = new File($pdo);
 		$sql = '	select '.$tmpFile->getColumnNamesForSql().', rand() as score from files
@@ -125,11 +125,11 @@ class File extends TObjectPersistence {
 		if (!$statement->execute()) {
 			throw new TObjectPdoException($statement);
 		}
-		
+
 		$col = new TObjectCollection($pdo, $statement, 'File');
 		return $col[0];
 	}
-	
+
 	public static function findOneById(ZingPDO $pdo, $id) {
 		$tmpFile = new File($pdo);
 		$sql = '	select '.$tmpFile->getColumnNamesForSql().' from files
@@ -140,11 +140,11 @@ class File extends TObjectPersistence {
 		if (!$statement->execute()) {
 			throw new TObjectPdoException($statement);
 		}
-		
+
 		$col = new TObjectCollection($pdo, $statement, 'File');
 		return $col[0];
 	}
-		
+
 
 }
 

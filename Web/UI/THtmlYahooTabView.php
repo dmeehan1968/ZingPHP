@@ -3,20 +3,20 @@
 class THtmlYahooTabView extends TCompositeControl {
 
 	private $elementId;
-	
+
 	public function setElementId($id) {
 		$this->elementId = $id;
 	}
-	
+
 	public function getElementId() {
 		return $this->elementId;
 	}
-	
+
 	public function hasElementId() {
 		return isset($this->elementId);
 	}
 	public function loadComplete() {
-		
+
 		$element = $this->getTopControl()->getDescendantById($this->getElementId());
 		$element->addClass('yui-navset');
 		foreach ($element->children as $index => $child) {
@@ -47,14 +47,14 @@ class THtmlYahooTabView extends TCompositeControl {
 		});
 
 	'));
-		
+
 		foreach ($new as $child) {
 			$child->doStatesUntil('Load');
 		}
 		parent::loadComplete();
 	}
 
-	
+
 }
 
 ?>

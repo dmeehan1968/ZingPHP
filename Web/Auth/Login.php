@@ -16,7 +16,7 @@ class Login extends TTemplateControl {
 	}
 
 	public function doLogin($control, $params) {
-	
+
 		$sess = TSession::getInstance();
 		if (($rc = $this->authManager->authenticate($sess->parameters->pdo, $this->username->getValue(), $this->password->getValue())) == TAuthentication::RC_NO_ERROR) {
 			header('Location:'.$this->referer->getValue());
@@ -44,37 +44,37 @@ class Login extends TTemplateControl {
 			}
 		}
 	}
-	
+
 	private $verifyModule = 'Zing/Web/Auth/THtmlAuthVerify';
-	
+
 	public function setVerifyModule($mod) {
 		$this->verifyModule = $mod;
 	}
-	
+
 	public function getVerifyModule() {
 		return $this->verifyModule;
 	}
-	
+
 	private $useFormsCss = true;
-	
+
 	public function setUseFormsCss($use) {
 		$this->useFormsCss = zing::evaluateAsBoolean($use);
 	}
-	
+
 	public function getUseFormsCss() {
 		return $this->useFormsCss;
 	}
-	
+
 	private $title = "Login";
-	
+
 	public function setTitle($title) {
 		$this->title = $title;
 	}
-	
+
 	public function preRender() {
 //		$this->loginTitle->children->deleteAll();
 		$this->loginTitle->setInnerText($this->title);
-		
+
 		$this->cssForms->setVisible($this->useFormsCss);
 		parent::preRender();
 	}

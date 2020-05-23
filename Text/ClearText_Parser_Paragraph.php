@@ -1,7 +1,7 @@
 <?php
 
 class ClearText_Parser_Paragraph extends TextParser_Parser {
-	
+
 	public function __construct(TextParser $parser) {
 		parent::__construct($parser);
 		$this->regexp = '/
@@ -17,7 +17,7 @@ class ClearText_Parser_Paragraph extends TextParser_Parser {
 						(?=\n\n|\n*\z)			# followed by 2 newlines or end
 					/smx';
 	}
-				
+
 	public function onMatch($match) {
 		$params = array('type' => 'start');
 		if (!empty($match['class'])) {

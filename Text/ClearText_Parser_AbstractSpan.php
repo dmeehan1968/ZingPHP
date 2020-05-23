@@ -9,7 +9,7 @@
  */
 
 class ClearText_Parser_AbstractSpan extends TextParser_Parser {
-	
+
 	public $delim;
 	public $regexp = '/
 						(?<!\\\\)				# not preceeded by escape
@@ -29,17 +29,17 @@ class ClearText_Parser_AbstractSpan extends TextParser_Parser {
 						\\@@@					# delim
 						(?=\xFF|\W|$)			# must be followed by non-word or end
 					/mx';
-*/	
+*/
 	public function parse($text, &$replaced) {
 		$this->regexp = str_replace('@@@', $this->delim, $this->regexp);
 		return parent::parse($text, $replaced);
 	}
-	
+
 	public function onMatch($match) {
 		$start = $this->addToken(TextParser::SPAN, array('type' => 'start'));
 		$end = $this->addToken(TextParser::SPAN, array('type' => 'end'));
-		
-		return $start . $match[1] . $end;		
+
+		return $start . $match[1] . $end;
 	}
 }
 

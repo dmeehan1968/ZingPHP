@@ -3,7 +3,7 @@
 class THtmlInput extends THtmlControl {
 
 	function init() {
-	
+
 		parent::init();
 
 		$this->setTag('input');
@@ -15,15 +15,15 @@ class THtmlInput extends THtmlControl {
 			$this->setName($id);
 		}
 	}
-	
+
 	public function setType($type) {
 		$this->attributes['type'] = $type;
 	}
-	
+
 	public function getType() {
 		return $this->attributes['type'];
 	}
-	
+
 	public function hasType() {
 		return isset($this->attributes['type']);
 	}
@@ -31,15 +31,15 @@ class THtmlInput extends THtmlControl {
 	public function setValue($value) {
 		$this->attributes['value'] = $value;
 	}
-	
+
 	public function getValue() {
 		return $this->attributes['value'];
 	}
-	
+
 	public function hasValue() {
 		return strlen($this->attributes['value']) ? true : false;
 	}
-	
+
 	public function bind() {
 		if ($this->hasBoundProperty() && $this->hasBoundObject()) {
 			$property = $this->getBoundProperty();
@@ -48,7 +48,7 @@ class THtmlInput extends THtmlControl {
 			$this->setValue($value);
 		}
 	}
-	
+
 	public function setDisabled($disabled) {
 		if (zing::evaluateAsBoolean($disabled)) {
 			$this->attributes['disabled'] = '1';
@@ -56,7 +56,7 @@ class THtmlInput extends THtmlControl {
 			unset($this->attributes['disabled']);
 		}
 	}
-	
+
 	public function  isDisabled() {
 		return isset($this->attributes['disabled']);
 	}
@@ -67,12 +67,12 @@ class THtmlInput extends THtmlControl {
 		}
 
 		$this->addClass($this->getType());
-		
+
 		parent::preRender();
 	}
-	
+
 	public function post() {
-	
+
 		parent::post();
 
 		$sess = TSession::getInstance();

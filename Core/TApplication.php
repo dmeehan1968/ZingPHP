@@ -3,11 +3,11 @@
 if (defined('ZING_PROFILER') && ZING_PROFILER) {
 
 	class ZingPDO {
-		
+
 		private $pdo;
 		public $queries = array();
 		public $queryCount = 0;
-		
+
 		public function __construct($dsn, $username = NULL, $password = NULL, $driver_options = array()) {
 			foreach ($driver_options as $attr => $value) {
 				switch ($attr) {
@@ -24,64 +24,64 @@ if (defined('ZING_PROFILER') && ZING_PROFILER) {
 			}
 			$this->pdo = new PDO($dsn, $username, $password, $driver_options);
 		}
-		
+
 		public function beginTransaction() {
 			return $this->pdo->beginTransaction();
 		}
-		
+
 		public function commit() {
 			return $this->pdo->commit();
 		}
-		
+
 		public function errorCode() {
 			return $this->pdo->errorCode();
 		}
-		
+
 		public function errorInfo() {
 			return $this->pdo->errorInfo();
 		}
-		
+
 		public function exec($statement) {
 			return $this->pdo->exec($statement);
 		}
-		
+
 		public function getAttribute($attribute) {
 			return $this->pdo->getAttribute($attribute);
 		}
-		
+
 		public function getAvailableDrivers() {
 			return $this->pdo->getAvailableDrivers();
 		}
-		
+
 		public function lastInsertId($name = NULL) {
 			return $this->pdo->lastInsertId($name);
 		}
-		
+
 		public function prepare($statement, $driver_options = array()) {
 			return $this->pdo->prepare($statement, $driver_options);
 		}
-		
+
 		public function query($statement) {
 			return $this->pdo->query($statement);
 		}
-		
+
 		public function quote($string, $parameter_type = PDO::PARAM_STR) {
 			return $this->pdo->quote($string, $parameter_type);
 		}
-		
+
 		public function rollBack() {
 			return $this->pdo->rollBack();
 		}
-		
+
 		public function setAttribute($attribute, $value) {
 			return $this->setAttribute($attribute, $value);
 		}
 	}
-		
+
 	class ZingPDOStatement extends PDOStatement {
 		private $pdo;
 		private $params = array();
-		
+
 		protected function __construct(ZingPDO $pdo) {
 			$this->pdo = $pdo;
 		}
@@ -90,7 +90,7 @@ if (defined('ZING_PROFILER') && ZING_PROFILER) {
 			$this->params[$parameter] = array('variable' => $variable, 'data_type' => $data_type, 'length' => $length, 'driver_options' => $driver_options);
 			return parent::bindParam($parameter, $variable, $data_type, $length, $driver_options);
 		}
-		
+
 		public function execute() {
 			$sql = $this->queryString;
 			foreach ($this->params as $parameter => $options) {
@@ -129,10 +129,10 @@ class TApplication implements IContainer {
 	private $cookies;
 	private $server;
 	private $profiler;
-	
+
 	public $modules;
 	public $page;
-	
+
 	function __construct() {
 		$this->session = TSession::getInstance();
 		$this->session->app = $this;
@@ -141,7 +141,7 @@ class TApplication implements IContainer {
 		if (defined('ZING_PROFILER') && ZING_PROFILER) {
 			$this->profiler = new PhpQuickProfiler(PhpQuickProfiler::getMicroTime(), '/Zing/PhpQuickProfiler/');
 		}
-		
+
 		Console::logSpeed('Application Initialisation');
 		Console::logMemory(NULL,'Startup');
 	}
@@ -153,18 +153,18 @@ class TApplication implements IContainer {
 			$this->profiler->display(isset($pdo) ? $pdo : '');
 		}
 	}
-	
+
 	public function getModuleMap($path) {
-	
+
 		foreach ($this->modules as $module) {
 			if ($module->isMatch($path)) {
 				return $module;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public function getModuleUri($modulePath, $uriParams = array(), $queryParams = array(), $bookmark = null) {
 		foreach($this->modules as $module) {
 			$cmp = substr($module->getModulePath(), 0-strlen($modulePath));
@@ -184,7 +184,7 @@ class TApplication implements IContainer {
 			}
 		}
 	}
-	
+
 	public function redirect($modulePath, $uriParams = array(), $queryParams = array()) {
 		if (strpos($modulePath, '://') === false) {
 			$uri = $this->getModuleUri($modulePath, $uriParams, $queryParams);
@@ -196,14 +196,14 @@ class TApplication implements IContainer {
 			exit();
 		}
 	}
-	
+
 	public function run() {
-	
+
 		try {
 			if (! $this->hasEnvironment) {
 				$this->setEnvironment();
 			}
-			
+
 			if (is_null($moduleMap = $this->getModuleMap($this->request->_modpath))) {
 				throw new Exception('404 Not Found');
 			}
@@ -211,7 +211,7 @@ class TApplication implements IContainer {
 			foreach ($moduleMap->parameters as $param => $value) {
 				$this->request[$param] = $value;
 			}
-			
+
 			if ($layoutMap = $moduleMap->getLayout()) {
 				$this->page = $layoutMap->getModule();
 				$this->page->setContent($moduleMap->getModule());
@@ -248,11 +248,11 @@ class TApplication implements IContainer {
 			<?php
 		}
 	}
-	
+
 	function getPage() {
 		return $this->pageLoader->getPage();
 	}
-	
+
 	function setEnvironment($vars = null) {
 		if (is_null($vars)) {
 			$vars = array(	'_SERVER' => $_SERVER,
@@ -264,7 +264,7 @@ class TApplication implements IContainer {
 								'_COOKIE' => $_COOKIE
 						);
 		}
-	
+
 		foreach ($vars as $name => $var) {
 			switch (strtolower($name)) {
 			case '_env':
@@ -290,7 +290,7 @@ class TApplication implements IContainer {
 				break;
 			}
 		}
-		
+
 		$this->hasEnvironment = true;
 	}
 
@@ -299,35 +299,35 @@ class TApplication implements IContainer {
 			return $this->$name;
 		}
 	}
-	
+
 	/* ============================= IContainer ============================ */
 
 	public function getChildren() {
 		return array($this->page);
 	}
-	
+
 	public function getDescendantById($id) {
 		if ($this->page->getId() == $id) {
 			return $this->page;
 		}
 		return $this->page->getDescendantById($id);
 	}
-	
+
 	public function getDescendantsByClass($class) {
 		$array = array();
-		
+
 		if ($this->page instanceof $class) {
 			$array[] = $this->page;
 		}
-		
+
 		if ($this->page instanceof IContainer) {
 			$array = array_merge($array, $this->page->getDescendantsByClass($class));
 		}
 
 		return $array;
 	}
-		
-	
+
+
 }
 
 ?>

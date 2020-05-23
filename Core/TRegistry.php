@@ -7,18 +7,18 @@ class TRegistry implements IteratorAggregate, Countable, ArrayAccess, IObservabl
 	private $valid = false;
 
 	public $observers = array();
-	
+
 	const EVT_ADD = 'ADD';
 	const EVT_UPDATE = 'UPDATE';
 	const EVT_DELETE = 'DELETE';
 	const EVT_ITERATE = 'ITERATE';
-	
+
 	function __construct($array = array(), $stripSlashes = false) {
 		foreach ($array as $name => $value) {
 			$this->__set(strtolower($name), $stripSlashes && is_string($value) ? stripslashes($value) : $value);
 		}
 	}
-	
+
 	function notifyObservers($event, $params = null) {
 		foreach ($this->observers as $ob) {
 			$ob->observedEvent($this, $event, $params);
@@ -33,7 +33,7 @@ class TRegistry implements IteratorAggregate, Countable, ArrayAccess, IObservabl
 		$name = strtolower($name);
 		return $this->vars[$name];
 	}
-	
+
 	public function __set($name, $value) {
 		if (is_null($name)) {
 			$max = -1;
@@ -44,7 +44,7 @@ class TRegistry implements IteratorAggregate, Countable, ArrayAccess, IObservabl
 			}
 			$name = ++$max;
 		}
-		
+
 		$evt = null;
 		$before = null;
 
@@ -55,7 +55,7 @@ class TRegistry implements IteratorAggregate, Countable, ArrayAccess, IObservabl
 		}
 
 		$name = strtolower($name);
-				
+
 		if ($evt) {
 			$this->notifyObservers($evt, array('name' => &$name, 'before' => &$before, 'after' => &$value));
 		}
@@ -76,20 +76,20 @@ class TRegistry implements IteratorAggregate, Countable, ArrayAccess, IObservabl
 	public function __isset($name) {
 		return isset($this->vars[strtolower($name)]);
 	}
-	
+
 	public function __unset($name) {
 		$name = strtolower($name);
 		$this->notifyObservers(self::EVT_DELETE, array('name' => $name));
 		unset($this->vars[$name]);
 	}
-	
+
 	public function insertBefore($key, $value, $name = null) {
 		foreach (array_keys($this->vars) as $offset => $keyname) {
 			if ($key == $keyname) {
 				break;
 			}
 		}
-		
+
 		if ($key != $keyname) {
 			return false;	// non-existent insertion point
 		}
@@ -103,19 +103,19 @@ class TRegistry implements IteratorAggregate, Countable, ArrayAccess, IObservabl
 		$this->vars = array_merge($this->vars, $after);
 		return $new[0];
 	}
-	
+
 	public function offsetExists($offset) {
 		return $this->__isset($offset);
 	}
-	
+
 	public function offsetGet($offset) {
 		return $this->__get($offset);
 	}
-	
+
 	public function offsetSet($offset, $value) {
 		return $this->__set($offset, $value);
 	}
-	
+
 	public function offsetUnset($offset) {
 		return $this->__unset($offset);
 	}
@@ -123,11 +123,11 @@ class TRegistry implements IteratorAggregate, Countable, ArrayAccess, IObservabl
 	public function count() {
 		return count($this->vars);
 	}
-	
+
 	public function asArray() {
 		return $this->vars;
 	}
-	
+
 	public function deleteAll() {
 		$this->vars = array();
 	}

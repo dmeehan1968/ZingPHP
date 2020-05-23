@@ -7,11 +7,11 @@ class Sitemap extends TModule {
 
 		parent::render();
 	}
-	
+
 	public function populate($control, $params) {
 
 		$sess = TSession::getInstance();
-	
+
 		foreach ($sess->app->modules as $module) {
 			if ($module->hasFactory()) {
 				if (isset($module->factory['class'])) {
@@ -30,13 +30,13 @@ class Sitemap extends TModule {
 				}
 			}
 		}
-		
+
 		foreach ($control->children as $child) {
 			$child->doStatesUntil('preRender');
 		}
 
 	}
-	
+
 	private function createSitemapUrl($module, $object = null) {
 /*
 	<url>
@@ -44,7 +44,7 @@ class Sitemap extends TModule {
 		<lastmod>2005-01-01</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.8</priority>
-	</url>  
+	</url>
 */
 
 		$sess = TSession::getInstance();
@@ -56,7 +56,7 @@ class Sitemap extends TModule {
 				$value = TControl::resolveBoundValue($object, $property);
 				$params[$param] = $encode ? urlencode($value) : $value;
 			}
-		}								
+		}
 		$url = zing::create('THtmlControl', array('tag' => 'url'));
 		$url->children[] = zing::create('THtmlControl', array('tag' => 'loc', 'innerText' => 'http://' . $sess->app->server->http_host . $module->getUri($params)));
 		return $url;

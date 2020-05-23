@@ -1,9 +1,9 @@
 <?php
 
 class Xhtml_Render_Links extends TextParser_Renderer {
-	
+
 	public function render($params) {
-		
+
 		$linkRefs = $this->parser->linkReferences[$params['linktext']];
 
 		if ($linkRefs) {
@@ -26,7 +26,7 @@ class Xhtml_Render_Links extends TextParser_Renderer {
 		if ($linkRefs['rel'] && !empty($linkRefs['rel'])) {
 			$linkAttrs['rel'] = $linkRefs['rel'];
 		}
-		
+
 		$linkText = $linkAttrs['linktext'];
 		unset($linkAttrs['linktext']);
 
@@ -45,17 +45,17 @@ class Xhtml_Render_Links extends TextParser_Renderer {
 		if ($params['caption']) {
 			$image['caption'] = $params['caption'];
 		}
-		
+
 		if (empty($linkAttrs['class'])) {
 			unset($linkAttrs['class']);
 		}
 
 		$text = '';
-		
+
 //		if (isset($image['src'])) {
 //			$text .= '<div class="image' . (!empty($image['class']) ? ' ' . $image['class'] : '') . '">';
 //		}
-		
+
 		/*
 		 * Only create a link if the href is set
 		 */
@@ -65,9 +65,9 @@ class Xhtml_Render_Links extends TextParser_Renderer {
 				$text .= ' ' . $attr . '="' . htmlentities($value) .'"';
 			}
 			$text .= '>';
-			
+
 		}
-		
+
 		unset($linkAttrs['style']);		// doesn't apply to image
 
 		if (isset($image['src'])) {
@@ -85,7 +85,7 @@ class Xhtml_Render_Links extends TextParser_Renderer {
 		} else {
 			$text .= $linkText;
 		}
-		
+
 		if (isset($linkAttrs['href'])) {
 			$text .= '</a>';
 		}
@@ -93,10 +93,10 @@ class Xhtml_Render_Links extends TextParser_Renderer {
 //		if (isset($image['src'])) {
 //			$text .= '</div>';
 //		}
-		
+
 		return $text;
 	}
-	
+
 	public function makeUrl($namespace, $uri, $target, $query) {
 		$url = '';
 		$url .= empty($namespace) ? '' : implode((array)$namespace, ':') . ':';

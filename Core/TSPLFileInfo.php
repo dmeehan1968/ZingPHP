@@ -1,19 +1,19 @@
 <?php
 
 class TSPLFileInfo extends SPLFileInfo {
-	
+
 	public function __get($name) {
 		$name = 'get' . $name;
 		if (method_exists($this, $name)) {
 			return $this->$name();
 		}
 	}
-	
+
 	public function isDot() {
 		$filename = parent::getFilename();
 		return $filename[0] == '.';
 	}
-	
+
 	public function getSize() {
 		if ($this->isDir()) {
 			return '-';
@@ -26,22 +26,22 @@ class TSPLFileInfo extends SPLFileInfo {
 		}
 		return ((int)$size) . ' ' . array_shift($scale);
 	}
-	
+
 	public function getExtension() {
 		preg_match_all('/(?:.*\.(?P<ext>.*))|(.*)$/', parent::getFilename(), $m);
 		return $m['ext'][0];
 	}
-	
+
 	public function getFilename($withExt = true) {
 		$file = parent::getFilename();
 		if ($file == '..') {
 			return '<parent>';
 		}
-		
+
 		if ($withExt) {
 			return $file;
 		}
-		
+
 		$parts = explode('.', $file);
 		if (count($parts) > 1) {
 			array_pop($parts);
@@ -55,22 +55,22 @@ class TSPLFileInfo extends SPLFileInfo {
 		}
 		return gmdate($format, parent::getMTime());
 	}
-	
+
 	public function getATime($format = null) {
 		if (is_null($format)) {
 			return parent::getATime();
 		}
 		return gmdate($format, parent::getATime());
 	}
-	
+
 	public function getCTime($format = null) {
 		if (is_null($format)) {
 			return parent::getCTime();
 		}
 		return gmdate($format, parent::getCTime());
 	}
-	
-	public function getIconPath() {	
+
+	public function getIconPath() {
 		$icons = array(
 						'jpg' => 'Imagen-JPG-32x32.png',
 						'png' => 'Imagen-PNG-32x32.png',
@@ -85,7 +85,7 @@ class TSPLFileInfo extends SPLFileInfo {
 					    'generic' => 'Sistema-Default-32x32.png',
 						'dir' => 'Lightbrown-Generic-32x32.png'
 						);
-		
+
 		$ext = $this->getExtension();
 		if (empty($ext) || ! array_key_exists($ext, $icons)) {
 			if ($this->isDir()) {
@@ -117,7 +117,7 @@ class TSPLFileInfo extends SPLFileInfo {
 						0x0002 => array('offset' => 8, 'char' => 'w'),
 						0x0001 => array('offset' => 9, 'char' => 'x')
 					  );
-		
+
 		foreach ($perms as $bits => $a) {
 			if (($code & $bits) == $bits) {
 				$info[$a['offset']] = $a['char'];
@@ -125,7 +125,7 @@ class TSPLFileInfo extends SPLFileInfo {
 		}
 		return $info;
 	}
-	
+
 	public function getType() {
 		$type = parent::getType();
 		switch ($type) {
@@ -137,7 +137,7 @@ class TSPLFileInfo extends SPLFileInfo {
 			return 'Unknown';
 		}
 	}
-		
+
 }
 
 ?>

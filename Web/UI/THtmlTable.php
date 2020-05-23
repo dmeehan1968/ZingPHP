@@ -6,10 +6,10 @@ class THtmlTable extends THtmlControl {
 	private	$head;
 	private	$body;
 	private	$repeater;
-		
+
 	public function __construct($params = array()) {
 		parent::__construct($params);
-		
+
 		$this->setTag('table');
 		if (! isset($this->attributes['cellspacing'])) {
 			$this->attributes['cellspacing'] = 0;
@@ -19,17 +19,17 @@ class THtmlTable extends THtmlControl {
 	public function setCaption($caption) {
 		$this->caption = $caption;
 	}
-	
+
 	public function getCaption() {
 		return $this->caption;
 	}
-	
+
 	public function hasCaption() {
 		return isset($this->caption);
 	}
-	
+
 	public function initComplete() {
-	
+
 		$this->head = zing::create('THtmlControl', array('tag' => 'thead'));
 		$row = $this->head->children[] = zing::create('THtmlTableRow');
 
@@ -58,29 +58,29 @@ class THtmlTable extends THtmlControl {
 			}
 		}
 		$row->setOnRender('setRowClass');
-					
+
 		$this->head->preInit();
 		$this->body->preInit();
 		$this->head->init();
 		$this->body->init();
-		
+
 		$this->children->deleteAll();
 		$this->children[] = $this->head;
 		$this->children[] = $this->body;
-	
+
 		parent::initComplete();
 	}
 
 	private $onRepeat;
-	
+
 	public function setOnRepeat($repeat) {
 		$this->onRepeat = $repeat;
 	}
-	
+
 	public function getOnRepeat() {
 		return $this->onRepeat;
 	}
-	
+
 	public function hasOnRepeat() {
 		return isset($this->onRepeat);
 	}
@@ -91,12 +91,12 @@ class THtmlTable extends THtmlControl {
 
 	public function setRowClass($control, $params) {
 		$control->setClass($control->getContainer()->getIterations() % 2 ? 'odd' : 'even');
-	}	
+	}
 
 	public function bind() {
 		// skip THtmlControl's bind(), as it would cause innertext to be added, not relevant to table controls.
 		TCompositeControl::bind();
-	}	
+	}
 }
 
 ?>
