@@ -12,7 +12,7 @@ class THtmlFormattedDiv extends THtmlDiv {
 		return $this->paragraph;
 	}
 
-	public function setInnerText($text) {
+	public function setInnerText($text, $forceEmpty = false) {
 		$this->children->deleteAll();
 		parent::setInnerText($text);
 	}
