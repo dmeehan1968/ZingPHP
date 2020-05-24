@@ -43,9 +43,10 @@ class TRepeater extends TCompositeControl {
 
 		if ($this->hasBoundObject()) {
 
-			$this->setExtent(count($this->getBoundObject()));
+			$boundObject = $this->getBoundObject();
+			$this->setExtent(is_array($boundObject) ? count($boundObject) : 0);
 
-			foreach ($this->getBoundObject() as $element) {
+			foreach ($boundObject as $element) {
 				foreach ($this->children as $child) {
 					$child->setBoundObject($element);
 					$child->preRender();
