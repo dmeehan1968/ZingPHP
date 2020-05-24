@@ -470,7 +470,7 @@ class THtmlFormattedDiv extends THtmlDiv {
 							$target = $m['target'][$index][0] . $m['target2'][$index][0];
 						}
 						$web = $m['web'.$suffix][$index][0];
-						if (strstr($web,'://') === false && $web[0] != '/' && $web[0] != '#') {
+						if (strlen($web) > 0 && strstr($web,'://') === false && $web[0] != '/' && $web[0] != '#') {
 							$web = 'http://' . $web;
 						}
 						$webText = $m['inner'.$suffix][$index][0];
