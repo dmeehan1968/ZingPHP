@@ -443,8 +443,8 @@ class THtmlFormattedDiv extends THtmlDiv {
 			 * www.domain.com|"Inner Text"
 			 */
 
-			$email = '[A-Z0-9-_&]+(\.[A-Z0-9-_&]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+';
-			$web = '((([A-Z]+:\/\/)|www\.)[A-Z0-9-_]+(\.[A-Z0-9][A-Z0-9-_]+)+(:\d+)?|((?<=\s|^)\/[^\/\?\s\|]+)|(#[\w\d\-_]+))(\/[^\/\?\s\|#]+)*(\?[^\s\|]*)?';
+			$email = '[A-Z0-9\-_&]+(\.[A-Z0-9\-_&]+)*@[A-Z0-9\-]+(\.[A-Z0-9\-]+)+';
+			$web = '((([A-Z]+:\/\/)|www\.)[A-Z0-9\-_]+(\.[A-Z0-9][A-Z0-9\-_]+)+(:\d+)?|((?<=\s|^)\/[^\/\?\s\|]+)|(#[\w\d\-_]+))(\/[^\/\?\s\|#]+)*(\?[^\s\|]*)?';
 			if (preg_match_all('/((?:(?P<email>'.$email.')|(?P<web>'.$web.'))(?:\|(?:target=(?P<target>[\w_][\w_\-\d]+)\|)?\"(?P<inner>[^\"]+)\")?|(?P<web2>\/)(?:\|(?:target=(?P<target2>[\w_][\w_\-\d]+)\|)?\"(?P<inner2>[^\"]+)\"))/mi',$para, $m, PREG_OFFSET_CAPTURE)) {
 				$offset = 0;
 				foreach ($m[0] as $index => $source) {
@@ -462,15 +462,15 @@ class THtmlFormattedDiv extends THtmlDiv {
 						$paraCtl->children[] = zing::create('THtmlLink', array('innerText' => $emailText, 'href' => 'mailto:' . $email));
 					} else {
 						$suffix = '';
-						if (isset($m['web2'][$index][0])) {
+						if ($m['web2'][$index][1] > -1) {
 							$suffix = '2';
 						}
 						$target = '';
-						if (isset($m['target'][$index][0]) || isset($m['target2'][$index][0])) {
+						if ($m['target'][$index][1] > -1 || $m['target2'][$index][1] > -1) {
 							$target = $m['target'][$index][0] . $m['target2'][$index][0];
 						}
 						$web = $m['web'.$suffix][$index][0];
-						if (strstr($web,'://') === false && $web[0] != '/' && $web[0] != '#') {
+						if (strlen($web) > 0 && strstr($web,'://') === false && $web[0] != '/' && $web[0] != '#') {
 							$web = 'http://' . $web;
 						}
 						$webText = $m['inner'.$suffix][$index][0];

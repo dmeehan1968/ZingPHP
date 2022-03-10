@@ -147,11 +147,12 @@ class THtmlControl extends TCompositeControl {
 
 	public function onBindAttribute($attribute, $value) {
 		$origValue = $value;
-		list($action, $value) = explode(':', $value);
-
-		if (!isset($value)) {
-			$value = $action;
+		$arr = explode(':', $value);
+		if (!is_array($arr) || count($arr) < 2) {
 			$action = null;
+		} else {
+			$action = $arr[0];
+			$value = $arr[1];
 		}
 		switch (strtolower($action)) {
 			case 'bind':

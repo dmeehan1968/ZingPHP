@@ -191,7 +191,16 @@ abstract class TObjectPersistence {
 
 		$statement = $this->pdo->prepare($sql);
 		foreach ($names as $name) {
-			$statement->bindParam(':'.$name, $this->$name);
+			$type = PDO::PARAM_STR;
+			switch (gettype($this->$name)) {
+				case 'boolean':
+					$type = PDO::PARAM_BOOL;
+					break;
+				case 'integer':
+					$type = PDF::PARAM_INT;
+					break;
+			}
+			$statement->bindParam(':'.$name, $this->$name, $type);
 		}
 		$statement->bindParam(':object_id', $this->id);
 
