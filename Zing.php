@@ -7,9 +7,9 @@ ini_set('include_path', PEAR_PATH . '/' . 'net_smtp' . ':' . ini_get('include_pa
 ini_set('include_path', PEAR_PATH . '/' . 'net_socket' . ':' . ini_get('include_path'));
 
 if (defined('ZING_AUTOLOAD')) {
-	function __autoload($class) {
-		return zing::__autoload($class);
-	}
+	spl_autoload_register(function($class) {
+		zing::autoload($class);
+	});
 }
 
 if (isset($_REQUEST['profiler'])) {
@@ -245,13 +245,13 @@ class Zing {
 	 *
 	 * If it is required to support autoload functionality for other aspects of
 	 * the project, zing::autoload() can be called from within the applications own
-	 * __autoload() implementation.
+	 * autoload() implementation.
 	 *
 	 * @param string $class
 	 *		the name of the class to load
 	 */
 
-	public static function __autoload($class) {
+	public static function autoload($class) {
 
 		if (isset(zing::$aliases[$class])) {
 			require_once zing::$aliases[$class];
